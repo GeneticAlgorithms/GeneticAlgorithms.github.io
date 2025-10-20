@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================
+         META TAGS & BASIC SETUP
+    ============================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexander Le - Digital Innovator & Interdisciplinary Researcher</title>
+    <meta name="description" content="Alexander Le - UC Berkeley student studying Philosophy and Data Science. Experience with NASA, Intel, IBM Z, and California Volunteers. Passionate about algorithmic game theory, trading models, and philosophy of mind.">
+    <meta name="author" content="Alexander Le">
+    <meta name="keywords" content="Alexander Le, UC Berkeley, Philosophy, Data Science, NASA, Intel, IBM, Algorithmic Game Theory, Time-Series Forecasting">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="Logo.svg" type="image/svg+xml">
+    
+    <!-- ============================================
+         EXTERNAL DEPENDENCIES
+    ============================================= -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Ion Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- ============================================
+         CSS STYLES
+    ============================================= -->
+    <style>
+        /* ============================================
+           CSS CUSTOM PROPERTIES (VARIABLES)
+        ============================================= */
+        :root {
+            /* Color Palette */
+            --primary-blue: #64b5f6;
+            --secondary-purple: #bb86fc;
+            --accent-cyan: #0bd1d1;
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(20, 20, 20, 0.8);
+            --bg-overlay: rgba(10, 10, 10, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #64b5f6 0%, #bb86fc 100%);
+            --gradient-text: linear-gradient(135deg, #ffffff 0%, #64b5f6 50%, #bb86fc 100%);
+            --gradient-card: linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(187, 134, 252, 0.1) 100%);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+            
+            /* Spacing System */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+            
+            /* Layout */
+            --container-padding: 2.5rem;
+            --section-padding: 6.25rem;
+            --border-radius: 1.25rem;
+            --border-radius-lg: 1.875rem;
+            
+            /* Transitions */
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Shadows */
+            --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 8px 32px rgba(100, 181, 246, 0.3);
+        }
+
+        /* ============================================
+           RESET & BASE STYLES
+        ============================================= */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+        ============================================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .section {
+            padding: var(--section-padding) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           THREE.JS CANVAS CONTAINER
+        ============================================= */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================= */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-lg) var(--container-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: var(--bg-overlay);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .nav.scrolled {
+            padding: var(--space-md) var(--container-padding);
+            box-shadow: var(--shadow-md);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            height: 2.5rem;
+            width: auto;
+            transition: var(--transition-smooth);
+        }
+
+        .logo:hover img {
+            transform: scale(1.1);
+        }
+
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
+            max-width: 50rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: var(--space-lg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            margin-bottom: var(--space-lg);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero .highlight {
+            color: var(--primary-blue);
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            max-width: 37.5rem;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition-smooth);
+        }
+
+        .social-link:hover {
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: var(--border-radius-lg);
+            transition: var(--transition-bounce);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(100, 181, 246, 0.4);
+        }
+
+        /* ============================================
+           SECTION STYLES
+        ============================================= */
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: var(--space-3xl);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3xl);
+            max-width: 37.5rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ============================================
+           EXPERIENCE SECTION
+        ============================================= */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .experience-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .experience-card:hover::before {
+            opacity: 1;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(100, 181, 246, 0.15);
+        }
+
+        .experience-card h3 {
+            font-size: 1.375rem;
+            color: var(--primary-blue);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+        }
+
+        .experience-company {
+            color: var(--secondary-purple);
+            font-size: 1.125rem;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+        }
+
+        .experience-duration {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           PROJECTS SECTION
+        ============================================= */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(100, 181, 246, 0.2);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: var(--space-md);
+            font-weight: 600;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 0.375rem 0.75rem;
+            background: rgba(100, 181, 246, 0.1);
+            color: var(--primary-blue);
+            border-radius: var(--border-radius-lg);
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(100, 181, 246, 0.3);
+        }
+
+        /* ============================================
+           EDUCATION SECTION
+        ============================================= */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .education-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .education-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(100, 181, 246, 0.15);
+        }
+
+        .education-card h3 {
+            font-size: 1.25rem;
+            color: var(--primary-blue);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+        }
+
+        .education-institution {
+            color: var(--secondary-purple);
+            font-size: 1rem;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+        }
+
+        .education-duration {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .education-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           ABOUT SECTION
+        ============================================= */
+        .about-content {
+            max-width: 50rem;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            line-height: 1.7;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-2xl);
+        }
+
+        .skill-item {
+            background: var(--bg-card);
+            padding: var(--space-lg);
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .skill-item:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-5px);
+        }
+
+        .skill-item h4 {
+            color: var(--primary-blue);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+        }
+
+        .skill-item p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* ============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-content {
+            max-width: 37.5rem;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .contact-item:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+        ============================================= */
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 1.25rem;
+                --section-padding: 3.75rem;
+            }
+
+            .nav {
+                padding: var(--space-md) var(--container-padding);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+            }
+
+            .hero-links {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .experience-grid,
+            .projects-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 6vw, 3rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================
+         THREE.JS CANVAS CONTAINER
+    ============================================= -->
+    <div id="canvas-container"></div>
+
+    <!-- ============================================
+         NAVIGATION
+    ============================================= -->
+    <nav class="nav" id="navbar">
+        <a href="#" class="logo">
+            <img src="Logo.svg" alt="Alexander Le Logo">
+            <span class="logo-text">Alexander Le</span>
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <ion-icon name="menu-outline"></ion-icon>
+        </button>
+    </nav>
+
+    <!-- ============================================
+         HERO SECTION
+    ============================================= -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-subtitle">Fiat Lux & Go Bears!</p>
+                <h1>Nice to meet you!<br>I'm <span class="highlight">Alex 🚀</span> 🇺🇸</h1>
+                <p class="hero-description">
+                    I'm a junior undergraduate studying Philosophy and Data Science at UC Berkeley. 
+                    My expected graduation date is in May 2027. I have worked for California Volunteers, 
+                    Office of the Governor, NASA, IBM Z, and the Intel Corporation. I'm interested in 
+                    algorithmic game theory, trading models, time-series forecasting, philosophy of mind, 
+                    and phenomenology of perception.
+                </p>
+                
+                <div class="hero-links">
+                    <a href="https://linkedin.com/in/energetic-cynosure" class="social-link">
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://instagram.com/genetic.algorithms" class="social-link">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://github.com/legendare-algorithms" class="social-link">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://orcid.org/0009-0007-3880-9357" class="social-link">
+                        <ion-icon name="library-outline"></ion-icon>
+                        <span>ORCID</span>
+                    </a>
+                </div>
+                
+                <a href="#contact" class="cta-button">
+                    <span>Get In Touch</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         EXPERIENCE SECTION
+    ============================================= -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Professional Experience</h2>
+            <p class="section-subtitle text-center">Building bridges between technology, policy, and innovation</p>
+            
+            <div class="experience-grid">
+                <div class="experience-card fade-in">
+                    <h3>Digital Infrastructure Intern</h3>
+                    <div class="experience-company">California Volunteers, Office of the Governor</div>
+                    <div class="experience-duration">October 2024 - June 2025</div>
+                    <p class="experience-description">
+                        Working on digital infrastructure projects that support volunteer coordination 
+                        and community engagement across California. Contributing to systems that 
+                        facilitate civic participation and social impact.
+                    </p>
+                </div>
+                
+                <div class="experience-card fade-in">
+                    <h3>Data Scientist Intern</h3>
+                    <div class="experience-company">Intel Corporation</div>
+                    <div class="experience-duration">June 2022 - September 2022</div>
+                    <p class="experience-description">
+                        Developed machine learning models and data analysis pipelines for semiconductor 
+                        manufacturing processes. Applied statistical methods to optimize production 
+                        efficiency and quality control systems.
+                    </p>
+                </div>
+                
+                <div class="experience-card fade-in">
+                    <h3>IBM Americas Student Partner</h3>
+                    <div class="experience-company">IBM Z</div>
+                    <div class="experience-duration">December 2020 - August 2021</div>
+                    <p class="experience-description">
+                        Collaborated with IBM's mainframe division to develop educational content and 
+                        technical resources for students. Gained expertise in enterprise computing 
+                        systems and large-scale data processing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PROJECTS SECTION
+    ============================================= -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Featured Projects</h2>
+            <p class="section-subtitle text-center">Exploring the intersection of philosophy, data science, and technology</p>
+            
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <h3>Algorithmic Game Theory Research</h3>
+                    <p>
+                        Investigating strategic decision-making in multi-agent systems using game theory 
+                        principles. Developing algorithms that model competitive and cooperative behaviors 
+                        in economic and social contexts.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Game Theory</span>
+                        <span class="tech-tag">Optimization</span>
+                        <span class="tech-tag">Nash Equilibrium</span>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <h3>Time-Series Forecasting Models</h3>
+                    <p>
+                        Building predictive models for financial and economic data using advanced 
+                        statistical methods and machine learning techniques. Exploring the philosophical 
+                        implications of prediction and determinism.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">R</span>
+                        <span class="tech-tag">ARIMA</span>
+                        <span class="tech-tag">LSTM</span>
+                        <span class="tech-tag">Financial Modeling</span>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <h3>Philosophy of Mind & AI</h3>
+                    <p>
+                        Researching the intersection of consciousness, perception, and artificial 
+                        intelligence. Examining how phenomenological approaches can inform the 
+                        development of more human-like AI systems.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Philosophy</span>
+                        <span class="tech-tag">Phenomenology</span>
+                        <span class="tech-tag">Cognitive Science</span>
+                        <span class="tech-tag">AI Ethics</span>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <h3>Data Science for Social Good</h3>
+                    <p>
+                        Applying data science techniques to address social challenges and policy 
+                        questions. Working on projects that use data to inform decision-making 
+                        in public service and community development.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Data Visualization</span>
+                        <span class="tech-tag">Policy Analysis</span>
+                        <span class="tech-tag">Social Impact</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         EDUCATION SECTION
+    ============================================= -->
+    <section id="education" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Education</h2>
+            <p class="section-subtitle text-center">Pursuing knowledge across disciplines</p>
+            
+            <div class="education-grid">
+                <div class="education-card fade-in">
+                    <h3>Bachelor of Arts in Philosophy</h3>
+                    <div class="education-institution">University of California, Berkeley</div>
+                    <div class="education-duration">2023 - 2027 (Expected)</div>
+                    <p class="education-description">
+                        Focus on philosophy of mind, phenomenology, and logic. Exploring fundamental 
+                        questions about consciousness, perception, and the nature of knowledge.
+                    </p>
+                </div>
+                
+                <div class="education-card fade-in">
+                    <h3>Bachelor of Science in Data Science</h3>
+                    <div class="education-institution">University of California, Berkeley</div>
+                    <div class="education-duration">2023 - 2027 (Expected)</div>
+                    <p class="education-description">
+                        Comprehensive study of statistical methods, machine learning, and data analysis. 
+                        Emphasis on applying computational techniques to real-world problems.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT SECTION
+    ============================================= -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">About Me</h2>
+            <div class="about-content">
+                <p>
+                    I'm passionate about exploring the complex intersections between human cognition, 
+                    technological innovation, and philosophical inquiry. My unique background combines 
+                    rigorous analytical thinking with creative problem-solving approaches.
+                </p>
+                <p>
+                    At UC Berkeley, I'm pursuing dual degrees in Philosophy and Data Science, allowing 
+                    me to examine both the theoretical foundations of knowledge and the practical 
+                    applications of computational methods. This interdisciplinary approach informs 
+                    my work in algorithmic game theory, time-series forecasting, and AI ethics.
+                </p>
+                <p>
+                    My professional experiences at NASA, Intel, IBM Z, and California Volunteers have 
+                    given me valuable insights into how technology can be leveraged for both scientific 
+                    advancement and social good. I believe in using data-driven approaches to address 
+                    complex challenges while maintaining ethical considerations and human-centered design.
+                </p>
+                
+                <div class="skills-grid">
+                    <div class="skill-item fade-in">
+                        <h4>Philosophy & Logic</h4>
+                        <p>Phenomenology, Philosophy of Mind, Formal Logic, Ethics</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Data Science</h4>
+                        <p>Machine Learning, Statistical Analysis, Time-Series, Visualization</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Programming</h4>
+                        <p>Python, R, SQL, JavaScript, Algorithm Design</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Research</h4>
+                        <p>Game Theory, Cognitive Science, Policy Analysis, Academic Writing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT SECTION
+    ============================================= -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Get In Touch</h2>
+            <div class="contact-content text-center">
+                <p>
+                    Interested in collaborating on research, discussing philosophy and technology, 
+                    or exploring new opportunities? I'd love to hear from you!
+                </p>
+                <div class="contact-info">
+                    <a href="mailto:legendare@berkeley.edu" class="contact-item">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        legendare@berkeley.edu
+                    </a>
+                    <a href="https://linkedin.com/in/energetic-cynosure" class="contact-item">
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/legendare-algorithms" class="contact-item">
+                        <ion-icon name="logo-github"></ion-icon>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         JAVASCRIPT FUNCTIONALITY
+    ============================================= -->
+    <script>
+        // ============================================
+        // THREE.JS SCENE SETUP
+        // ============================================
+        let scene, camera, renderer, starField, constellations = [], mouseX = 0, mouseY = 0;
+        
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            
+            const container = document.getElementById('canvas-container');
+            container.appendChild(renderer.domElement);
+            
+            createStarField();
+            createConstellations();
+            camera.position.z = 50;
+            animate();
+        }
+        
+        function createStarField() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starVertices = [];
+            const starColors = [];
+            const starSizes = [];
+            
+            for (let i = 0; i < 2000; i++) {
+                starVertices.push(
+                    (Math.random() - 0.5) * 600,
+                    (Math.random() - 0.5) * 400,
+                    (Math.random() - 0.5) * 300
+                );
+                
+                const colorChoice = Math.random();
+                if (colorChoice < 0.7) {
+                    starColors.push(1, 1, 1);
+                } else if (colorChoice < 0.85) {
+                    starColors.push(0.4, 0.7, 1);
+                } else {
+                    starColors.push(0.7, 0.5, 1);
+                }
+                
+                starSizes.push(Math.random() * 2 + 1);
+            }
+            
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+            starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(starSizes, 1));
+            
+            const starMaterial = new THREE.ShaderMaterial({
+                uniforms: { time: { value: 0.0 } },
+                vertexShader: `
+                    attribute float size;
+                    attribute vec3 color;
+                    varying vec3 vColor;
+                    uniform float time;
+                    
+                    void main() {
+                        vColor = color;
+                        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                        float twinkle = sin(time + position.x * 0.01) * 0.3 + 0.7;
+                        gl_PointSize = size * twinkle * (300.0 / -mvPosition.z);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vColor;
+                    
+                    void main() {
+                        float distance = length(gl_PointCoord - vec2(0.5));
+                        if (distance > 0.5) discard;
+                        
+                        float alpha = 1.0 - (distance * 2.0);
+                        alpha *= alpha;
+                        
+                        gl_FragColor = vec4(vColor, alpha);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+            
+            starField = new THREE.Points(starGeometry, starMaterial);
+            scene.add(starField);
+        }
+        
+        function createConstellations() {
+            const constellationPatterns = [
+                {
+                    stars: [
+                        new THREE.Vector3(-40, 30, -20),
+                        new THREE.Vector3(-20, 35, -25),
+                        new THREE.Vector3(0, 32, -22),
+                        new THREE.Vector3(20, 28, -18),
+                        new THREE.Vector3(15, 45, -20),
+                        new THREE.Vector3(-5, 48, -25),
+                        new THREE.Vector3(-25, 50, -22)
+                    ]
+                },
+                {
+                    stars: [
+                        new THREE.Vector3(40, -10, -30),
+                        new THREE.Vector3(50, 0, -25),
+                        new THREE.Vector3(45, 10, -28),
+                        new THREE.Vector3(35, 5, -32),
+                        new THREE.Vector3(30, -15, -35),
+                        new THREE.Vector3(55, -20, -30),
+                        new THREE.Vector3(25, -25, -28)
+                    ]
+                }
+            ];
+            
+            constellationPatterns.forEach((pattern, patternIndex) => {
+                const group = new THREE.Group();
+                
+                pattern.stars.forEach((position, index) => {
+                    const starGeometry = new THREE.SphereGeometry(0.6, 8, 8);
+                    const starMaterial = new THREE.MeshBasicMaterial({
+                        color: new THREE.Color().setHSL(0.6 + patternIndex * 0.1, 0.8, 0.9),
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    
+                    const star = new THREE.Mesh(starGeometry, starMaterial);
+                    star.position.copy(position);
+                    group.add(star);
+                    
+                    if (index > 0) {
+                        const lineGeometry = new THREE.BufferGeometry();
+                        const lineVertices = [
+                            pattern.stars[index - 1].x, pattern.stars[index - 1].y, pattern.stars[index - 1].z,
+                            position.x, position.y, position.z
+                        ];
+                        lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(lineVertices, 3));
+                        
+                        const lineMaterial = new THREE.LineBasicMaterial({
+                            color: new THREE.Color().setHSL(0.6 + patternIndex * 0.1, 0.6, 0.5),
+                            transparent: true,
+                            opacity: 0.3
+                        });
+                        
+                        const line = new THREE.Line(lineGeometry, lineMaterial);
+                        group.add(line);
+                    }
+                });
+                
+                constellations.push(group);
+                scene.add(group);
+            });
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            if (starField) {
+                starField.material.uniforms.time.value = time;
+                starField.rotation.y += 0.0001;
+                starField.rotation.x += (mouseY * 0.000005);
+                starField.rotation.y += (mouseX * 0.00001);
+            }
+            
+            constellations.forEach((constellation, index) => {
+                constellation.rotation.x += 0.00005 + (index * 0.00005);
+                constellation.rotation.y += 0.0001 + (index * 0.00005);
+                constellation.rotation.z += 0.000025;
+                constellation.position.y += Math.sin(time * 0.3 + index) * 0.005;
+                constellation.position.x += Math.cos(time * 0.2 + index) * 0.003;
+            });
+            
+            renderer.render(scene, camera);
+        }
+
+        // ============================================
+        // NAVIGATION & SCROLL EFFECTS
+        // ============================================
+        function initNavigation() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function initEventListeners() {
+            // Mouse interaction for Three.js
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX - window.innerWidth / 2;
+                mouseY = event.clientY - window.innerHeight / 2;
+            });
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            initNavigation();
+            initScrollAnimations();
+            initEventListeners();
+        });
+    </script>
+</body>
+</html>

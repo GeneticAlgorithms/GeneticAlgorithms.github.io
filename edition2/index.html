@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================
+         META TAGS & BASIC SETUP
+    ============================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexander Le - Digital Innovator & Interdisciplinary Researcher</title>
+    <meta name="description" content="Alexander Le - UC Berkeley student studying Philosophy and Data Science. Experience with NASA, Intel, IBM Z, and California Volunteers. Passionate about algorithmic game theory, trading models, and philosophy of mind.">
+    <meta name="author" content="Alexander Le">
+    <meta name="keywords" content="Alexander Le, UC Berkeley, Philosophy, Data Science, NASA, Intel, IBM, Algorithmic Game Theory, Time-Series Forecasting">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="Logo.svg" type="image/svg+xml">
+    
+    <!-- ============================================
+         EXTERNAL DEPENDENCIES
+    ============================================= -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Basis Font (similar to the one in the image) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    </style>
+    
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Ion Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- ============================================
+         CSS STYLES
+    ============================================= -->
+    <style>
+        /* ============================================
+           CSS CUSTOM PROPERTIES (VARIABLES)
+        ============================================= */
+        :root {
+            /* Color Palette - Inspired by Anduril */
+            --primary-blue: #00d4ff;
+            --secondary-teal: #00b4d8;
+            --accent-cyan: #0077b6;
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(15, 15, 15, 0.95);
+            --bg-overlay: rgba(8, 8, 8, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6a6a6a;
+            --border-subtle: rgba(0, 212, 255, 0.1);
+            --text-accent: #ffffff;
+            --glow-primary: rgba(0, 212, 255, 0.3);
+            --glow-secondary: rgba(0, 180, 216, 0.2);
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #00b4d8 100%);
+            --gradient-text: linear-gradient(135deg, #ffffff 0%, #00d4ff 50%, #00b4d8 100%);
+            --gradient-card: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 180, 216, 0.1) 100%);
+            --gradient-glow: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+            
+            /* Typography */
+            --font-primary: 'Inter', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Meiryo', 'メイリオ', sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', monospace;
+            --font-basis: 'Inter', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Meiryo', 'メイリオ', sans-serif;
+            
+            /* Spacing System */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+            
+            /* Layout */
+            --container-padding: 2.5rem;
+            --section-padding: 6.25rem;
+            --border-radius: 1.25rem;
+            --border-radius-lg: 1.875rem;
+            
+            /* Transitions */
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Shadows */
+            --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 8px 32px rgba(100, 181, 246, 0.3);
+        }
+
+        /* ============================================
+           RESET & BASE STYLES
+        ============================================= */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-basis);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+        ============================================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        .section {
+            padding: var(--section-padding) 0;
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(8, 8, 8, 0.2) 0%, rgba(8, 8, 8, 0.1) 50%, transparent 70%);
+            backdrop-filter: blur(20px);
+            border-radius: 50% 50% 0 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           THREE.JS CANVAS CONTAINER
+        ============================================= */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================= */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--space-lg) var(--container-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(30px);
+            background: rgba(8, 8, 8, 0.85);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-glow);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .nav:hover::before {
+            opacity: 0.1;
+        }
+
+        .nav.scrolled {
+            padding: var(--space-md) var(--container-padding);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--glow-primary);
+            background: rgba(8, 8, 8, 0.95);
+        }
+
+        .nav.scrolled::before {
+            opacity: 0.15;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            height: 2.5rem;
+            width: auto;
+            transition: var(--transition-smooth);
+        }
+
+        .logo:hover img {
+            transform: scale(1.1);
+        }
+
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            position: relative;
+            transition: var(--transition-smooth);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(8, 8, 8, 0.4) 0%, rgba(8, 8, 8, 0.2) 50%, transparent 70%);
+            backdrop-filter: blur(30px);
+            border-radius: 0 0 50% 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 50rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: var(--space-lg);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .highlight {
+            color: var(--primary-blue);
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            max-width: 37.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition-smooth);
+        }
+
+        .social-link:hover {
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 400;
+            border-radius: 0;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--primary-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-blue);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background: rgba(15, 15, 15, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* ============================================
+           SECTION STYLES
+        ============================================= */
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 300;
+            margin-bottom: var(--space-3xl);
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-3xl);
+            max-width: 37.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        /* ============================================
+           EXPERIENCE SECTION
+        ============================================= */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .experience-card {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-primary);
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-glow);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .experience-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            background: rgba(15, 15, 15, 0.98);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-primary);
+        }
+
+        .experience-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            font-weight: 400;
+        }
+
+        .experience-company {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: var(--space-xs);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .experience-duration {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-bottom: var(--space-md);
+            font-weight: 400;
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           PROJECTS SECTION
+        ============================================= */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .project-card {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-primary);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-glow);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            background: rgba(15, 15, 15, 0.98);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-primary);
+        }
+
+        .project-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+            font-weight: 400;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 0.25rem 0.5rem;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: 400;
+            border: none;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        /* ============================================
+           EDUCATION SECTION
+        ============================================= */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+            gap: var(--space-xl);
+        }
+
+        .education-card {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: var(--space-xl);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-primary);
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            background: rgba(15, 15, 15, 0.98);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-primary);
+        }
+
+        .education-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            font-weight: 400;
+        }
+
+        .education-institution {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: var(--space-xs);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .education-duration {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-bottom: var(--space-md);
+            font-weight: 400;
+        }
+
+        .education-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           ABOUT SECTION
+        ============================================= */
+        .about-content {
+            max-width: 50rem;
+            margin: 0 auto;
+            background: rgba(15, 15, 15, 0.6);
+            padding: var(--space-2xl);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            line-height: 1.7;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-2xl);
+        }
+
+        .skill-item {
+            background: rgba(15, 15, 15, 0.8);
+            padding: var(--space-lg);
+            border-radius: 20px;
+            text-align: left;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-primary);
+        }
+
+        .skill-item:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-5px);
+            background: rgba(15, 15, 15, 0.98);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-primary);
+        }
+
+        .skill-item h4 {
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            font-weight: 400;
+        }
+
+        .skill-item p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* ============================================
+           WRITING SECTION
+        ============================================= */
+        .writing-grid {
+            display: grid;
+            gap: var(--space-xl);
+            max-width: 50rem;
+            margin: 0 auto;
+        }
+
+        .writing-post {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            padding: var(--space-2xl);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-primary);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .writing-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--glow-primary);
+        }
+
+        .writing-post::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-glow);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .writing-post:hover::before {
+            opacity: 0.2;
+        }
+
+        .writing-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .writing-date {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .writing-category {
+            color: var(--primary-blue);
+            font-size: 0.75rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .writing-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .writing-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .writing-read-more {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: var(--transition-smooth);
+        }
+
+        .writing-read-more:hover {
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        /* ============================================
+           CONTACT SECTION
+        ============================================= */
+        .contact-content {
+            max-width: 37.5rem;
+            margin: 0 auto;
+            background: rgba(15, 15, 15, 0.6);
+            padding: var(--space-2xl);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+            font-weight: 400;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 0.25rem;
+        }
+
+        .contact-item:hover {
+            color: var(--text-primary);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+        ============================================= */
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 1.25rem;
+                --section-padding: 3.75rem;
+            }
+
+            .nav {
+                padding: var(--space-md) var(--container-padding);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+            }
+
+            .hero-links {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+
+            .experience-grid,
+            .projects-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 6vw, 3rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================
+         THREE.JS CANVAS CONTAINER
+    ============================================= -->
+    <div id="canvas-container"></div>
+
+    <!-- ============================================
+         NAVIGATION
+    ============================================= -->
+    <nav class="nav" id="navbar">
+        <a href="#" class="logo">
+            <img src="Logo.svg" alt="Alexander Le Logo">
+            <span class="logo-text">Alexander Le</span>
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#writing">Writing</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+            <ion-icon name="menu-outline"></ion-icon>
+        </button>
+    </nav>
+
+    <!-- ============================================
+         HERO SECTION
+    ============================================= -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p class="hero-subtitle">Fiat Lux & Go Bears!</p>
+                <h1>Nice to meet you!<br>I'm <span class="highlight">Alex 🚀</span> 🇺🇸</h1>
+                <p class="hero-description">
+                    I'm a junior undergraduate studying Economics & Statistics at UC Berkeley, graduating in May 2027. 
+                    I've worked with California Volunteers (Office of the Governor), NASA, Intel Corporation, and 
+                    competed in DoD cybersecurity challenges. I'm passionate about data science, quantitative analysis, 
+                    and building solutions that make a real impact.
+                </p>
+                
+                <div class="hero-links">
+                    <a href="https://linkedin.com/in/energetic-cynosure" class="social-link">
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://instagram.com/genetic.algorithms" class="social-link">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://github.com/legendare-algorithms" class="social-link">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://orcid.org/0009-0007-3880-9357" class="social-link">
+                        <ion-icon name="library-outline"></ion-icon>
+                        <span>ORCID</span>
+                    </a>
+                </div>
+                
+                <a href="#contact" class="cta-button">
+                    <span>Let's Connect</span>
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         EXPERIENCE SECTION
+    ============================================= -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Professional Experience</h2>
+            <p class="section-subtitle text-center">Building bridges between technology, policy, and innovation</p>
+            
+            <div class="experience-grid">
+                <div class="experience-card fade-in">
+                    <h3>Digital Infrastructure Intern</h3>
+                    <div class="experience-company">California Volunteers, Office of the Governor</div>
+                    <div class="experience-duration">October 2023 - April 2025</div>
+                    <p class="experience-description">
+                        Working on digital infrastructure projects that support volunteer coordination 
+                        and community engagement across California. Built automated data processing tools 
+                        using Python and Selenium to handle volunteer participation data, reducing manual 
+                        processing time by 75% and improving data accuracy.
+                    </p>
+                </div>
+                
+                <div class="experience-card fade-in">
+                    <h3>Data Science Intern</h3>
+                    <div class="experience-company">Intel Corporation</div>
+                    <div class="experience-duration">June 2022 - September 2022</div>
+                    <p class="experience-description">
+                        Developed machine learning models and data analysis pipelines for semiconductor 
+                        manufacturing processes. Applied statistical methods using SARIMAX and XGBoost 
+                        to optimize production efficiency and quality control systems, achieving 15% 
+                        improvement in forecasting accuracy.
+                    </p>
+                </div>
+                
+                <div class="experience-card fade-in">
+                    <h3>CyberSentinel Challenge</h3>
+                    <div class="experience-company">Department of Defense</div>
+                    <div class="experience-duration">May 2024</div>
+                    <p class="experience-description">
+                        Competed in DoD-sponsored cybersecurity competition hosted by Correlation One, solving 
+                        complex challenges in cryptography, steganography, network security, and digital 
+                        forensics. Applied advanced problem-solving techniques to decrypt encoded messages 
+                        and identify security vulnerabilities within time-constrained scenarios.
+                    </p>
+                </div>
+                
+                <div class="experience-card fade-in">
+                    <h3>NASA Community College Aerospace Scholar</h3>
+                    <div class="experience-company">National Aeronautics and Space Administration</div>
+                    <div class="experience-duration">May 2021 - September 2022</div>
+                    <p class="experience-description">
+                        Conducted student research on Ionic Liquid Sorbents with a team of NASA scientists 
+                        and chemical engineers at Armstrong Flight Research Center, advised by NASA CFO 
+                        Frank M. Ramos. Gained hands-on experience in aerospace research and development.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PROJECTS SECTION
+    ============================================= -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Featured Projects</h2>
+            <p class="section-subtitle text-center">Exploring the intersection of data science, automation, and technology</p>
+            
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <h3>Automated Web Scraping & Data Cleaning</h3>
+                    <p>
+                        Automated data cleaning and form testing using Python and Selenium. Implemented 
+                        error handling and scheduling with cron for weekly data updates, processing 
+                        thousands of records efficiently and reliably.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Selenium</span>
+                        <span class="tech-tag">Cron</span>
+                        <span class="tech-tag">Automation</span>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <h3>Predictive Model for Consumer Demand Trends</h3>
+                    <p>
+                        Built a forecasting solution leveraging SARIMAX and XGBoost for time series 
+                        modeling of aggregated sales, inventory, and demand data. Achieved significant 
+                        improvements in prediction accuracy for supply chain optimization.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">SARIMAX</span>
+                        <span class="tech-tag">XGBoost</span>
+                        <span class="tech-tag">Time Series</span>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <h3>NASA Aerospace Research</h3>
+                    <p>
+                        Conducted research on Ionic Liquid Sorbents with NASA scientists and chemical 
+                        engineers. Gained hands-on experience in aerospace research and development, 
+                        contributing to cutting-edge space technology projects.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Aerospace</span>
+                        <span class="tech-tag">Research</span>
+                        <span class="tech-tag">Chemistry</span>
+                        <span class="tech-tag">NASA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         EDUCATION SECTION
+    ============================================= -->
+    <section id="education" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Education</h2>
+            <p class="section-subtitle text-center">Pursuing knowledge across disciplines</p>
+            
+            <div class="education-grid">
+                <div class="education-card fade-in">
+                    <h3>Bachelor of Arts - Double Major</h3>
+                    <div class="education-institution">University of California, Berkeley</div>
+                    <div class="education-duration">2023 - 2027 (Expected)</div>
+                    <p class="education-description">
+                        Double majoring in Economics & Statistics with focus on quantitative analysis, 
+                        statistical modeling, and economic theory. Active in Computer Science Undergraduate 
+                        Association (Officer), Space Enterprises at Berkeley, CALICO Informatics Competition 
+                        (Problem Writer), Berkeley Math Tournament, and Chess Club.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WRITING SECTION
+    ============================================= -->
+    <section id="writing" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Writing</h2>
+            <p class="section-subtitle text-center">Thoughts on technology, data science, and innovation</p>
+            
+            <div class="writing-grid">
+                <div class="writing-post fade-in">
+                    <div class="writing-meta">
+                        <div class="writing-date">December 2024</div>
+                        <div class="writing-category">Data Science</div>
+                    </div>
+                    <h3 class="writing-title">The Future of Predictive Analytics in Government</h3>
+                    <p class="writing-excerpt">
+                        Exploring how machine learning and statistical modeling can transform public sector 
+                        decision-making. From forecasting demand for social services to optimizing resource 
+                        allocation, data science has the potential to make government more efficient and 
+                        responsive to citizen needs.
+                    </p>
+                    <a href="#" class="writing-read-more">
+                        <span>Read More</span>
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </div>
+                
+                <div class="writing-post fade-in">
+                    <div class="writing-meta">
+                        <div class="writing-date">November 2024</div>
+                        <div class="writing-category">Technology</div>
+                    </div>
+                    <h3 class="writing-title">Building Automated Systems That Actually Work</h3>
+                    <p class="writing-excerpt">
+                        Lessons learned from developing data processing pipelines at scale. The key isn't 
+                        just writing code that works, but creating systems that are maintainable, reliable, 
+                        and can adapt to changing requirements over time.
+                    </p>
+                    <a href="#" class="writing-read-more">
+                        <span>Read More</span>
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </div>
+                
+                <div class="writing-post fade-in">
+                    <div class="writing-meta">
+                        <div class="writing-date">October 2024</div>
+                        <div class="writing-category">Career</div>
+                    </div>
+                    <h3 class="writing-title">From NASA to Silicon Valley: Lessons in Innovation</h3>
+                    <p class="writing-excerpt">
+                        Reflecting on the similarities between aerospace research and tech industry innovation. 
+                        Both fields require rigorous problem-solving, interdisciplinary thinking, and the 
+                        ability to work with complex systems under constraints.
+                    </p>
+                    <a href="#" class="writing-read-more">
+                        <span>Read More</span>
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT SECTION
+    ============================================= -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">About Me</h2>
+            <div class="about-content">
+                <p>
+                    I'm passionate about exploring the intersection of quantitative analysis, 
+                    technological innovation, and real-world problem solving. My unique background 
+                    combines rigorous statistical thinking with practical software development skills.
+                </p>
+                <p>
+                    At UC Berkeley, I'm double majoring in Economics & Statistics, allowing me to 
+                    examine both theoretical economic principles and practical data analysis methods. 
+                    This interdisciplinary approach informs my work in predictive modeling, automation, 
+                    and data-driven decision making.
+                </p>
+                <p>
+                    My professional experiences at California Volunteers, Intel, NASA, and DoD cybersecurity 
+                    challenges have given me valuable insights into how technology can be leveraged for 
+                    both government efficiency and private sector innovation. I believe in using 
+                    data-driven approaches to address complex challenges while maintaining focus on 
+                    practical implementation and measurable results.
+                </p>
+                
+                <div class="skills-grid">
+                    <div class="skill-item fade-in">
+                        <h4>Languages</h4>
+                        <p>Python, C++, Java, OCaml, TypeScript (TSX), JavaScript</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Libraries & Tools</h4>
+                        <p>NumPy, Pandas, TensorFlow, Selenium, Bloomberg Terminal, Jupyter Notebook, Tableau</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Design & Visualization</h4>
+                        <p>Figma, Canva Studio, iMovie, Procreate, Blender, Matplotlib</p>
+                    </div>
+                    <div class="skill-item fade-in">
+                        <h4>Interests</h4>
+                        <p>Agentic AI, Quantitative Finance, Competitive Programming, Chess, Rubik's Cubing, Cooking</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT SECTION
+    ============================================= -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title text-center">Get In Touch</h2>
+            <div class="contact-content text-center">
+                <p>
+                    Interested in collaborating on data science projects, discussing quantitative 
+                    finance and AI, or exploring new opportunities? I'd love to hear from you!
+                </p>
+                <div class="contact-info">
+                    <a href="mailto:legendare@berkeley.edu" class="contact-item">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        legendare@berkeley.edu
+                    </a>
+                    <a href="tel:+16507989063" class="contact-item">
+                        <ion-icon name="call-outline"></ion-icon>
+                        (650) 798-9063
+                    </a>
+                    <a href="https://linkedin.com/in/energetic-cynosure" class="contact-item">
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/legendare-algorithms" class="contact-item">
+                        <ion-icon name="logo-github"></ion-icon>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         JAVASCRIPT FUNCTIONALITY
+    ============================================= -->
+    <script>
+        // ============================================
+        // THREE.JS SCENE SETUP
+        // ============================================
+        let scene, camera, renderer, starField, constellations = [], shootingStars = [], mouseX = 0, mouseY = 0;
+        
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            
+            const container = document.getElementById('canvas-container');
+            container.appendChild(renderer.domElement);
+            
+            createStarField();
+            createShootingStars();
+            camera.position.z = 50;
+            animate();
+        }
+        
+        function createStarField() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starVertices = [];
+            const starColors = [];
+            const starSizes = [];
+            
+            for (let i = 0; i < 2000; i++) {
+                starVertices.push(
+                    (Math.random() - 0.5) * 600,
+                    (Math.random() - 0.5) * 400,
+                    (Math.random() - 0.5) * 300
+                );
+                
+                const colorChoice = Math.random();
+                if (colorChoice < 0.6) {
+                    // Brighter white stars
+                    starColors.push(1.2, 1.2, 1.2);
+                } else if (colorChoice < 0.8) {
+                    // Enhanced blue stars
+                    starColors.push(0.5, 0.8, 1.2);
+                } else {
+                    // Enhanced purple stars
+                    starColors.push(0.8, 0.6, 1.2);
+                }
+                
+                starSizes.push(Math.random() * 3 + 2);
+            }
+            
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+            starGeometry.setAttribute('size', new THREE.Float32BufferAttribute(starSizes, 1));
+            
+            const starMaterial = new THREE.ShaderMaterial({
+                uniforms: { time: { value: 0.0 } },
+                vertexShader: `
+                    attribute float size;
+                    attribute vec3 color;
+                    varying vec3 vColor;
+                    uniform float time;
+                    
+                    void main() {
+                        vColor = color;
+                        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                        float twinkle = sin(time + position.x * 0.01) * 0.3 + 0.7;
+                        gl_PointSize = size * twinkle * (300.0 / -mvPosition.z);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vColor;
+                    
+                    void main() {
+                        float distance = length(gl_PointCoord - vec2(0.5));
+                        if (distance > 0.5) discard;
+                        
+                        // Enhanced glow effect
+                        float alpha = 1.0 - (distance * 2.0);
+                        alpha = pow(alpha, 0.5); // Softer falloff for more glow
+                        
+                        // Add inner glow
+                        float innerGlow = 1.0 - (distance * 4.0);
+                        innerGlow = max(0.0, innerGlow);
+                        
+                        // Combine glow effects
+                        vec3 finalColor = vColor + vColor * innerGlow * 0.5;
+                        float finalAlpha = alpha + innerGlow * 0.3;
+                        
+                        gl_FragColor = vec4(finalColor, finalAlpha);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+            
+            starField = new THREE.Points(starGeometry, starMaterial);
+            scene.add(starField);
+        }
+        
+        // Constellation system removed to eliminate static dots
+        
+        function createShootingStars() {
+            // Create multiple shooting stars with different trajectories
+            for (let i = 0; i < 3; i++) {
+                const shootingStar = createShootingStar();
+                shootingStars.push(shootingStar);
+                scene.add(shootingStar);
+            }
+        }
+        
+        function createShootingStar() {
+            const group = new THREE.Group();
+            
+            // Create the main star with enhanced glow
+            const starGeometry = new THREE.SphereGeometry(0.4, 12, 12);
+            const starMaterial = new THREE.MeshBasicMaterial({
+                color: new THREE.Color().setHSL(0.6, 0.9, 1.2),
+                transparent: true,
+                opacity: 1.0
+            });
+            const star = new THREE.Mesh(starGeometry, starMaterial);
+            group.add(star);
+            
+            // Create the tail using a line
+            const tailGeometry = new THREE.BufferGeometry();
+            const tailVertices = [];
+            const tailLength = 15;
+            
+            for (let i = 0; i < tailLength; i++) {
+                tailVertices.push(
+                    -i * 2, 0, 0,
+                    -(i + 1) * 2, 0, 0
+                );
+            }
+            
+            tailGeometry.setAttribute('position', new THREE.Float32BufferAttribute(tailVertices, 3));
+            
+            const tailMaterial = new THREE.LineBasicMaterial({
+                color: new THREE.Color().setHSL(0.6, 0.9, 1.0),
+                transparent: true,
+                opacity: 0.8
+            });
+            const tail = new THREE.LineSegments(tailGeometry, tailMaterial);
+            group.add(tail);
+            
+            // Set random starting position and trajectory
+            const startX = (Math.random() - 0.5) * 800;
+            const startY = (Math.random() - 0.5) * 600;
+            const startZ = (Math.random() - 0.5) * 400;
+            
+            group.position.set(startX, startY, startZ);
+            
+            // Random trajectory direction
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.5 + Math.random() * 1.5;
+            
+            group.userData = {
+                velocity: new THREE.Vector3(
+                    Math.cos(angle) * speed,
+                    Math.sin(angle) * speed,
+                    (Math.random() - 0.5) * speed * 0.5
+                ),
+                life: 1.0,
+                maxLife: 1.0,
+                tail: tail,
+                star: star
+            };
+            
+            return group;
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.001;
+            
+            if (starField) {
+                starField.material.uniforms.time.value = time;
+                starField.rotation.y += 0.0001;
+                starField.rotation.x += (mouseY * 0.000005);
+                starField.rotation.y += (mouseX * 0.00001);
+            }
+            
+            // Constellation animations removed
+            
+            // Animate shooting stars
+            shootingStars.forEach((shootingStar, index) => {
+                const userData = shootingStar.userData;
+                
+                // Update position
+                shootingStar.position.add(userData.velocity);
+                
+                // Decrease life
+                userData.life -= 0.005;
+                
+                // Update opacity based on life
+                const opacity = Math.max(0, userData.life);
+                userData.star.material.opacity = opacity * 0.9;
+                userData.tail.material.opacity = opacity * 0.6;
+                
+                // Reset shooting star when it dies or goes off screen
+                if (userData.life <= 0 || 
+                    Math.abs(shootingStar.position.x) > 500 || 
+                    Math.abs(shootingStar.position.y) > 400) {
+                    
+                    // Remove from scene
+                    scene.remove(shootingStar);
+                    
+                    // Create new shooting star
+                    const newShootingStar = createShootingStar();
+                    shootingStars[index] = newShootingStar;
+                    scene.add(newShootingStar);
+                }
+            });
+            
+            renderer.render(scene, camera);
+        }
+
+        // ============================================
+        // NAVIGATION & SCROLL EFFECTS
+        // ============================================
+        function initNavigation() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function initEventListeners() {
+            // Mouse interaction for Three.js
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX - window.innerWidth / 2;
+                mouseY = event.clientY - window.innerHeight / 2;
+            });
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            initNavigation();
+            initScrollAnimations();
+            initEventListeners();
+        });
+    </script>
+</body>
+</html>
