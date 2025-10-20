@@ -1908,6 +1908,34 @@
                 width: clamp(1.25rem, 3vw, 1.75rem);
             }
         }
+
+        /* ============================================
+           MOBILE POLISH & TOUCH FIXES
+        ============================================= */
+        @media (hover: none), (pointer: coarse) {
+            /* Disable custom cursor on touch devices */
+            * { cursor: auto; }
+            .custom-cursor { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            /* Reduce ticker height and spacing on mobile */
+            .info-ticker { height: 42px; top: 70px; }
+            .ticker-item { font-size: 0.8rem; }
+            .hero { padding-top: 6.5rem; }
+            .hero-content { margin-top: 12px; }
+            
+            /* About photo sizing */
+            .about-layout { gap: var(--space-lg); }
+            .photo-container { width: 140px; height: 140px; }
+        }
+
+        @media (max-width: 480px) {
+            .info-ticker { height: 38px; top: 64px; }
+            .ticker-item { font-size: 0.75rem; }
+            .hero { padding-top: 6rem; }
+            .photo-container { width: 120px; height: 120px; }
+        }
     </style>
 </head>
 
