@@ -516,6 +516,76 @@
         .mobile-menu-close:hover {
             color: var(--primary-blue);
         }
+        
+        /* Sebastian-inspired bottom navigation for mobile */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 0;
+        }
+        
+        .mobile-bottom-nav.active {
+            display: block;
+        }
+        
+        .mobile-nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+            min-width: 0;
+            max-width: 20%;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--primary-blue);
+            transform: scale(1.1);
+        }
+        
+        .mobile-nav-item:hover {
+            color: var(--primary-blue);
+        }
+        
+        .mobile-nav-icon {
+            font-size: 1.25rem;
+        }
+        
+        .mobile-nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* Progress indicator */
+        .mobile-nav-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-purple));
+            transition: width 0.3s ease;
+            width: 20%;
+        }
 
         /* ============================================
            HERO SECTION
@@ -1373,6 +1443,7 @@
             border-bottom-color: var(--primary-blue);
         }
 
+
         /* ============================================
            VIDEOS SECTION
         ============================================= */
@@ -1802,6 +1873,11 @@
                 display: block;
             }
             
+            /* Show bottom navigation on mobile */
+            .mobile-bottom-nav {
+                display: block;
+            }
+            
             .logo-stack {
                 width: clamp(2rem, 5vw, 3rem);
                 height: clamp(2rem, 5vw, 3rem);
@@ -1812,18 +1888,9 @@
                 width: clamp(2rem, 5vw, 3rem);
             }
 
-            .hero {
-                padding-top: 7rem;
-            }
+            /* Hero styles moved to consolidated mobile CSS below */
 
-            .hero h1 {
-                font-size: clamp(2.2rem, 5.5vw, 3.5rem);
-            }
-
-            .hero-links {
-                flex-direction: column;
-                gap: var(--space-md);
-            }
+            /* Hero links styling moved to consolidated mobile CSS below */
 
             .experience-grid,
             .projects-grid,
@@ -1908,6 +1975,199 @@
                 width: clamp(1.25rem, 3vw, 1.75rem);
             }
         }
+
+        /* ============================================
+           MOBILE POLISH & TOUCH FIXES
+        ============================================= */
+        @media (hover: none), (pointer: coarse) {
+            /* Disable custom cursor on touch devices */
+            * { cursor: auto; }
+            .custom-cursor { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            /* Fix hero section layout for mobile */
+            .hero {
+                padding-top: 5rem !important;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin-top: 0 !important;
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            /* Reduce ticker height and spacing on mobile */
+            .info-ticker { 
+                height: 40px; 
+                top: 60px; 
+                font-size: 0.75rem;
+            }
+            
+            .ticker-item { 
+                font-size: 0.7rem; 
+                margin-right: 1rem;
+            }
+            
+            /* About photo sizing */
+            .about-layout { 
+                gap: var(--space-lg); 
+                text-align: center;
+            }
+            
+            .photo-container { 
+                width: 120px; 
+                height: 120px; 
+                margin: 0 auto;
+            }
+            
+            /* Enhanced mobile typography scaling (Sebastian-inspired) */
+            .hero h1 {
+                font-size: clamp(2rem, 7vw, 3.5rem) !important;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-description {
+                font-size: clamp(0.9rem, 3.5vw, 1.1rem) !important;
+                line-height: 1.5;
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Better mobile spacing */
+            .section {
+                padding: 2rem 1rem;
+            }
+            
+            .section-title {
+                font-size: clamp(1.75rem, 5vw, 2.5rem);
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+            
+            /* Mobile-optimized cards */
+            .experience-card,
+            .project-card,
+            .video-card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            /* Stack market data vertically on mobile */
+            .market-data {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            /* Mobile-friendly buttons */
+            .cta-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+                align-items: center;
+            }
+            
+            .cta-buttons a {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+                padding: 0.875rem 1.5rem;
+            }
+            
+            /* Make hero links more horizontal and compact */
+            .hero-links {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 0.5rem;
+                justify-items: center;
+                margin-bottom: 1.5rem;
+                max-width: 100%;
+            }
+            
+            .hero-links a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem;
+                padding: 0.4rem 0.2rem;
+                font-size: 0.75rem;
+                min-width: 0;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .hero-links a ion-icon {
+                font-size: 1.1rem;
+            }
+            
+            .hero-links a span {
+                font-size: 0.65rem;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Extra small mobile adjustments */
+            .info-ticker { 
+                height: 35px; 
+                top: 55px; 
+                font-size: 0.7rem;
+            }
+            
+            .ticker-item { 
+                font-size: 0.65rem; 
+                margin-right: 0.75rem;
+            }
+            
+            .hero { 
+                padding-top: 4.5rem !important; 
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .photo-container { 
+                width: 100px; 
+                height: 100px; 
+            }
+            
+            /* Extra small mobile typography */
+            .hero h1 {
+                font-size: clamp(1.75rem, 6vw, 3rem) !important;
+            }
+            
+            .hero-description {
+                font-size: clamp(0.85rem, 3vw, 1rem) !important;
+            }
+            
+            .section-title {
+                font-size: clamp(1.5rem, 4.5vw, 2.25rem);
+            }
+            
+            /* Make hero links even more compact on small screens */
+            .hero-links {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 0.4rem;
+            }
+            
+            .hero-links a {
+                padding: 0.3rem 0.1rem;
+                font-size: 0.7rem;
+            }
+            
+            .hero-links a ion-icon {
+                font-size: 1rem;
+            }
+            
+            .hero-links a span {
+                font-size: 0.6rem;
+            }
+            
+        }
     </style>
 </head>
 
@@ -1991,6 +2251,33 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
     </div>
+    
+    <!-- Sebastian-inspired Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+        <div class="mobile-nav-progress" id="mobile-nav-progress"></div>
+        <div class="mobile-nav-items">
+            <a href="#home" class="mobile-nav-item active" data-section="home">
+                <ion-icon name="home-outline" class="mobile-nav-icon"></ion-icon>
+                <span class="mobile-nav-label">Home</span>
+            </a>
+            <a href="#about" class="mobile-nav-item" data-section="about">
+                <ion-icon name="person-outline" class="mobile-nav-icon"></ion-icon>
+                <span class="mobile-nav-label">About</span>
+            </a>
+            <a href="#experience" class="mobile-nav-item" data-section="experience">
+                <ion-icon name="briefcase-outline" class="mobile-nav-icon"></ion-icon>
+                <span class="mobile-nav-label">Experience</span>
+            </a>
+            <a href="#projects" class="mobile-nav-item" data-section="projects">
+                <ion-icon name="code-slash-outline" class="mobile-nav-icon"></ion-icon>
+                <span class="mobile-nav-label">Projects</span>
+            </a>
+            <a href="#contact" class="mobile-nav-item" data-section="contact">
+                <ion-icon name="mail-outline" class="mobile-nav-icon"></ion-icon>
+                <span class="mobile-nav-label">Contact</span>
+            </a>
+        </div>
+    </nav>
 
     <!-- ============================================
          HERO SECTION
@@ -2225,10 +2512,10 @@
                 <p class="hero-subtitle">Fiat Lux & Go Bears!</p>
                 <h1>Nice to meet you!<br>I'm <span class="highlight">Alex 🚀</span> 🇺🇸</h1>
                 <p class="hero-description">
-                    I'm a junior undergraduate studying Economics & Statistics with a minor in EECS at UC Berkeley, graduating in May 2027. 
-                    I also write about data science and create educational videos on YouTube.
-                    I've worked with California Volunteers (Office of the Governor), NASA, Intel Corporation, and competed in DoD (now DoW) cybersecurity challenges.
-                    I'm passionate about data science, quantitative trading, and building solutions that make a real business impact.
+                    I'm a junior at UC Berkeley studying Economics & Statistics with an EECS minor, graduating May 2027. 
+                    I write about data science and create YouTube videos.
+                    I've worked with California Volunteers, NASA, Intel, and competed in DoD cybersecurity challenges.
+                    I'm passionate about data science, quantitative trading, and building impactful solutions.
                 </p>
                 
                 <div class="hero-links">
@@ -2283,8 +2570,8 @@
                 <div class="about-layout">
                     <div class="about-text">
                         <p>
-                            At UC Berkeley, I'm double majoring in Economics & Statistics. This interdisciplinary combination along with my minor in EECS equips me with the tools to explore the intersection of economic theory, statistical modeling, and computer science fundamentals. 
-                            I'm also an officer for the CSUA, on the Avionics and Business Team for Space Enterprise at Berkeley, and the Logistics Team for CALICO. 
+                            I'm double majoring in Economics & Statistics with an EECS minor at UC Berkeley.
+                            I love having fun with technology and building impactful solutions!
                         </p>
                     </div>
                     
@@ -2339,7 +2626,7 @@
                             <div class="involvement-role">Officer</div>
                             <div class="involvement-schedule">Office Hours: Friday 12-1 PM</div>
                             <p class="involvement-description">
-                                Serving as an officer in UC Berkeley's largest CS student organization, 
+                                I serve as an officer in UC Berkeley's largest CS student organization, 
                                 helping fellow students navigate their academic and career journeys.
                             </p>
                             <a href="https://www.csua.berkeley.edu/officers/" target="_blank" class="involvement-link">
@@ -2352,7 +2639,7 @@
                             <div class="involvement-role">Avionics and Business Team</div>
                             <div class="involvement-schedule">Avionics and Business Team</div>
                             <p class="involvement-description">
-                                Contributing to SEB's mission to become the first collegiate team to send 
+                                I contribute to SEB's mission to become the first collegiate team to send 
                                 a rocket to space, working on cutting-edge aerospace technology.
                             </p>
                             <a href="https://www.berkeleyse.org/" target="_blank" class="involvement-link">
@@ -2365,8 +2652,8 @@
                             <div class="involvement-role">Problem Writer and Logistics Team</div>
                             <div class="involvement-schedule">Competition Development</div>
                             <p class="involvement-description">
-                                Contributing to the development of competitive programming problems and 
-                                managing logistics for UC Berkeley's premier informatics competition.
+                                I contribute to the development of competitive programming problems and 
+                                manage logistics for UC Berkeley's premier informatics competition.
                             </p>
                             <a href="https://calico.cs.berkeley.edu/" target="_blank" class="involvement-link">
                                 <span>Visit CALICO Website</span>
@@ -2379,7 +2666,7 @@
                             <div class="involvement-role">Volunteer</div>
                             <div class="involvement-schedule">Mathematics Competition</div>
                             <p class="involvement-description">
-                                Supporting UC Berkeley's annual mathematics tournament, helping with 
+                                I support UC Berkeley's annual mathematics tournament, helping with 
                                 event coordination and ensuring smooth competition operations.
                             </p>
                             <a href="https://bmt.berkeley.edu/" target="_blank" class="involvement-link">
@@ -2422,7 +2709,7 @@
                 
         <div class="market-data">
             <h3>Market Overview</h3>
-            <p class="market-description">I'm interested in finance so I made a section to keep track of some securities.</p>
+            <p class="market-description">I track securities I'm interested in.</p>
             <div class="securities-grid" id="securities-grid">
                 <div class="loading-indicator">Loading market data...</div>
             </div>
@@ -2439,7 +2726,7 @@
     <section id="experience" class="section">
         <div class="container">
             <h2 class="section-title text-center">Professional Experience</h2>
-            <p class="section-subtitle text-center">Building bridges between technology, policy, and innovation</p>
+            <p class="section-subtitle text-center">My work bridging technology, policy, and innovation</p>
             
             <div class="experience-grid">
                 <a href="https://www.californiavolunteers.ca.gov/" target="_blank" class="experience-card fade-in">
@@ -2498,7 +2785,7 @@
     <section id="writing" class="section">
         <div class="container">
             <h2 class="section-title text-center">Writing</h2>
-            <p class="section-subtitle text-center">Thoughts on technology, data science, and innovation</p>
+            <p class="section-subtitle text-center">My thoughts on technology and data science</p>
             
             <div class="writing-grid">
                 <div class="writing-post fade-in">
@@ -2555,7 +2842,7 @@
     <section id="videos" class="section">
         <div class="container">
             <h2 class="section-title text-center">Videos</h2>
-            <p class="section-description text-center">Educational content and tutorials on data science, programming, and technology</p>
+            <p class="section-description text-center">My educational videos on data science and programming</p>
             
             <div class="videos-content">
                 <div class="videos-layout">
@@ -2589,7 +2876,7 @@
     <section id="projects" class="section">
         <div class="container">
             <h2 class="section-title text-center">Featured Projects</h2>
-            <p class="section-subtitle text-center">Exploring the intersection of data science, automation, and technology</p>
+            <p class="section-subtitle text-center">My work in data science, automation, and technology</p>
             
             <div class="projects-grid">
                 <div class="project-card fade-in">
@@ -2651,8 +2938,7 @@
             <h2 class="section-title text-center">Get In Touch</h2>
             <div class="contact-content text-center">
                 <p>
-                    Interested in collaborating on data science projects, discussing quantitative 
-                    finance and AI, or exploring new opportunities? I'd love to hear from you!
+                    Want to collaborate on data science projects or discuss quantitative finance and AI? Let's connect!
                 </p>
                 <div class="contact-info">
                     <a href="mailto:legendare@berkeley.edu" class="contact-item">
@@ -2722,19 +3008,45 @@
                     (Math.random() - 0.5) * 300
                 );
                 
+                const brightnessChoice = Math.random();
                 const colorChoice = Math.random();
-                if (colorChoice < 0.6) {
-                    // Brighter white stars
+                
+                if (brightnessChoice < 0.05) {
+                    // Super bright glowing stars (5% of stars)
+                    if (colorChoice < 0.4) {
+                        // Bright white glow
+                        starColors.push(2.5, 2.5, 2.5);
+                    } else if (colorChoice < 0.7) {
+                        // Bright blue glow
+                        starColors.push(1.0, 1.5, 2.5);
+                    } else {
+                        // Bright purple glow
+                        starColors.push(1.8, 1.2, 2.5);
+                    }
+                    starSizes.push(Math.random() * 6 + 8); // Larger size for bright stars
+                } else if (brightnessChoice < 0.15) {
+                    // Medium bright stars (10% of stars)
+                    if (colorChoice < 0.4) {
+                        starColors.push(1.8, 1.8, 1.8);
+                    } else if (colorChoice < 0.7) {
+                        starColors.push(0.8, 1.2, 1.8);
+                    } else {
+                        starColors.push(1.4, 1.0, 1.8);
+                    }
+                    starSizes.push(Math.random() * 4 + 5);
+                } else if (brightnessChoice < 0.6) {
+                    // Normal bright stars
                     starColors.push(1.2, 1.2, 1.2);
-                } else if (colorChoice < 0.8) {
+                    starSizes.push(Math.random() * 3 + 2);
+                } else if (brightnessChoice < 0.8) {
                     // Enhanced blue stars
                     starColors.push(0.5, 0.8, 1.2);
+                    starSizes.push(Math.random() * 3 + 2);
                 } else {
                     // Enhanced purple stars
                     starColors.push(0.8, 0.6, 1.2);
+                    starSizes.push(Math.random() * 3 + 2);
                 }
-                
-                starSizes.push(Math.random() * 3 + 2);
             }
             
             starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
@@ -2747,34 +3059,77 @@
                     attribute float size;
                     attribute vec3 color;
                     varying vec3 vColor;
+                    varying float vTwinkle;
                     uniform float time;
                     
                     void main() {
                         vColor = color;
                         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                        float twinkle = sin(time + position.x * 0.01) * 0.3 + 0.7;
+                        
+                        // Calculate brightness level
+                        float brightness = (color.r + color.g + color.b) / 3.0;
+                        
+                        // Create different twinkling patterns based on brightness
+                        float twinkle;
+                        if (brightness > 1.5) {
+                            // Super bright stars: dramatic twinkling
+                            twinkle = sin(time * 2.0 + position.x * 0.02 + position.y * 0.015) * 0.6 + 0.4;
+                            twinkle += sin(time * 3.5 + position.z * 0.01) * 0.3;
+                        } else if (brightness > 1.2) {
+                            // Medium bright stars: moderate twinkling
+                            twinkle = sin(time * 1.5 + position.x * 0.015) * 0.4 + 0.6;
+                            twinkle += sin(time * 2.2 + position.y * 0.01) * 0.2;
+                        } else if (brightness > 1.0) {
+                            // Normal bright stars: subtle twinkling
+                            twinkle = sin(time + position.x * 0.01) * 0.3 + 0.7;
+                        } else {
+                            // Dim stars: minimal twinkling
+                            twinkle = sin(time * 0.5 + position.x * 0.005) * 0.1 + 0.9;
+                        }
+                        
+                        vTwinkle = twinkle;
                         gl_PointSize = size * twinkle * (300.0 / -mvPosition.z);
                         gl_Position = projectionMatrix * mvPosition;
                     }
                 `,
                 fragmentShader: `
                     varying vec3 vColor;
+                    varying float vTwinkle;
                     
                     void main() {
                         float distance = length(gl_PointCoord - vec2(0.5));
                         if (distance > 0.5) discard;
                         
-                        // Enhanced glow effect
-                        float alpha = 1.0 - (distance * 2.0);
-                        alpha = pow(alpha, 0.5); // Softer falloff for more glow
+                        // Calculate brightness level based on color intensity
+                        float brightness = (vColor.r + vColor.g + vColor.b) / 3.0;
                         
-                        // Add inner glow
+                        // Apply twinkling to color intensity
+                        vec3 twinkledColor = vColor * vTwinkle;
+                        
+                        // Enhanced glow effect with varying intensity
+                        float alpha = 1.0 - (distance * 2.0);
+                        alpha = pow(alpha, 0.3); // Softer falloff for more glow
+                        
+                        // Add inner glow with brightness-based intensity
                         float innerGlow = 1.0 - (distance * 4.0);
                         innerGlow = max(0.0, innerGlow);
                         
-                        // Combine glow effects
-                        vec3 finalColor = vColor + vColor * innerGlow * 0.5;
-                        float finalAlpha = alpha + innerGlow * 0.3;
+                        // Create outer glow for bright stars (affected by twinkling)
+                        float outerGlow = 0.0;
+                        if (brightness > 1.5) {
+                            outerGlow = 1.0 - (distance * 1.5);
+                            outerGlow = max(0.0, outerGlow);
+                            outerGlow = pow(outerGlow, 2.0);
+                            outerGlow *= vTwinkle; // Twinkling affects outer glow
+                        }
+                        
+                        // Combine glow effects with twinkling
+                        vec3 finalColor = twinkledColor + twinkledColor * innerGlow * 0.8 + twinkledColor * outerGlow * 0.6;
+                        float finalAlpha = alpha + innerGlow * 0.4 + outerGlow * 0.3;
+                        
+                        // Clamp values to prevent overflow
+                        finalColor = min(finalColor, vec3(3.0));
+                        finalAlpha = min(finalAlpha, 1.0);
                         
                         gl_FragColor = vec4(finalColor, finalAlpha);
                     }
@@ -2962,6 +3317,68 @@
                     }
                 });
             });
+            
+            // Sebastian-inspired mobile bottom nav functionality
+            const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+            const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+            const mobileNavProgress = document.getElementById('mobile-nav-progress');
+            
+            if (mobileBottomNav && mobileNavItems.length > 0) {
+                // Mobile bottom nav click handlers
+                mobileNavItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetSection = item.getAttribute('data-section');
+                        const targetElement = document.getElementById(targetSection);
+                        
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+                
+                // Update mobile nav active state on scroll
+                function updateMobileNavActive() {
+                    const sections = ['home', 'about', 'experience', 'projects', 'contact'];
+                    const scrollPosition = window.scrollY + 100;
+                    
+                    let activeSection = 'home';
+                    
+                    sections.forEach(section => {
+                        const element = document.getElementById(section);
+                        if (element) {
+                            const rect = element.getBoundingClientRect();
+                            const elementTop = rect.top + window.scrollY;
+                            const elementBottom = elementTop + rect.height;
+                            
+                            if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+                                activeSection = section;
+                            }
+                        }
+                    });
+                    
+                    // Update active nav item
+                    mobileNavItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('data-section') === activeSection) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Update progress bar
+                    const activeIndex = sections.indexOf(activeSection);
+                    const progressWidth = ((activeIndex + 1) / sections.length) * 100;
+                    if (mobileNavProgress) {
+                        mobileNavProgress.style.width = `${progressWidth}%`;
+                    }
+                }
+                
+                // Add scroll listener for mobile nav
+                window.addEventListener('scroll', updateMobileNavActive);
+            }
         }
 
         // ============================================
