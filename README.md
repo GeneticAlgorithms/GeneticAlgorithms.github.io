@@ -1,6 +1,4 @@
-# Alexander Le - Personal Portfolio Website
-
-A modern, responsive personal portfolio website combining the best elements from two previous designs into a cohesive, professional presentation.
+# My Personal Portfolio Website
 
 ## Features
 
