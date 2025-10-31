@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Building Automated Systems That Actually Work - Alexander Le</title>
+    <title>From NASA to Silicon Valley: Lessons in Innovation - Alexander Le</title>
     <link rel="icon" type="image/svg+xml" href="Logo.svg">
     
     <!-- Fonts -->
@@ -230,87 +230,90 @@
     <div class="container">
         <header class="blog-header">
             <nav class="blog-nav">
-                <a href="index.html" class="back-link">
+                <a href="../index.html" class="back-link">
                     <ion-icon name="arrow-back-outline"></ion-icon>
                     <span>Back to Portfolio</span>
                 </a>
             </nav>
             
             <div class="blog-meta">
-                <span class="blog-category">Technology</span>
-                <span>November 2024</span>
+                <span class="blog-category">Career</span>
+                <span>October 2024</span>
             </div>
             
-            <h1 class="blog-title">Building Automated Systems That Actually Work</h1>
+            <h1 class="blog-title">From NASA to Silicon Valley: Lessons in Innovation</h1>
         </header>
         
         <main class="blog-content">
-            <p>After working on data processing pipelines that handle millions of records daily, I've learned that the key to building automated systems isn't just writing code that works—it's creating systems that are maintainable, reliable, and can adapt to changing requirements over time.</p>
+            <p>Having worked on aerospace research at NASA and data science projects in Silicon Valley, I've been struck by the similarities between these two worlds. Both require rigorous problem-solving, interdisciplinary thinking, and the ability to work with complex systems under constraints. But they also approach innovation in fundamentally different ways.</p>
             
-            <h2>The Automation Trap</h2>
+            <h2>The NASA Approach: Mission-Critical Precision</h2>
             
-            <p>It's tempting to automate everything. After all, if a process can be automated, why waste human time on it? But automation without careful planning often leads to brittle systems that break when conditions change, or worse, systems that work perfectly until they don't—and then fail catastrophically.</p>
+            <p>At NASA, every decision carries enormous weight. When you're designing systems that will operate in space, there's no room for error. The consequences of failure are not just financial—they can be catastrophic. This creates a culture of meticulous planning, extensive testing, and conservative decision-making.</p>
             
-            <p>The most successful automated systems I've built follow a few key principles that I've learned through trial and error.</p>
-            
-            <h2>Design for Observability</h2>
-            
-            <p>You can't fix what you can't see. Every automated system needs comprehensive logging, monitoring, and alerting. This doesn't mean logging everything—that creates noise. Instead, focus on logging the right things at the right level.</p>
+            <p>During my time as a NASA Community College Aerospace Scholar, I learned that innovation at NASA isn't about moving fast and breaking things. It's about moving deliberately and building things that work reliably in the harshest conditions imaginable.</p>
             
             <blockquote>
-                "The best automated systems are boring. They run quietly in the background, doing their job without drama."
+                "In aerospace, you can't iterate your way out of a problem once your rocket is in the air. You have to get it right the first time."
             </blockquote>
             
-            <h3>Key Metrics to Track</h3>
+            <h3>Key Lessons from NASA</h3>
             
             <ul>
-                <li><strong>Throughput:</strong> How many records are being processed per hour?</li>
-                <li><strong>Latency:</strong> How long does it take to process a single record?</li>
-                <li><strong>Error Rate:</strong> What percentage of records fail processing?</li>
-                <li><strong>Resource Usage:</strong> CPU, memory, and disk utilization patterns</li>
+                <li><strong>Systems Thinking:</strong> Every component affects every other component. You can't optimize one part in isolation.</li>
+                <li><strong>Risk Management:</strong> Identify potential failure modes early and design systems to handle them gracefully.</li>
+                <li><strong>Documentation:</strong> When lives depend on your work, documentation isn't optional—it's essential.</li>
+                <li><strong>Testing:</strong> Test everything, test often, and test under realistic conditions.</li>
             </ul>
             
-            <h2>Build in Resilience</h2>
+            <h2>The Silicon Valley Approach: Rapid Iteration</h2>
             
-            <p>Systems will fail. Networks will go down. Databases will become unavailable. The question isn't whether these things will happen, but how your system will respond when they do.</p>
+            <p>In Silicon Valley, the philosophy is different. The goal is to move quickly, learn from failures, and iterate based on user feedback. The mantra is "fail fast, fail often"—but fail in ways that teach you something valuable.</p>
             
-            <h3>Retry Logic and Circuit Breakers</h3>
+            <p>Working on data science projects at Intel and other tech companies, I've seen how this approach can accelerate innovation. When you can deploy changes quickly and measure their impact in real-time, you can learn and adapt much faster than traditional industries.</p>
             
-            <p>Implement exponential backoff for retries, and use circuit breakers to prevent cascading failures. If a downstream service is consistently failing, stop calling it for a while rather than continuing to hammer it with requests.</p>
+            <h3>Key Lessons from Silicon Valley</h3>
             
-            <h3>Graceful Degradation</h3>
+            <ul>
+                <li><strong>User-Centric Design:</strong> Build for the user, not for the technology. The best solution is the one that solves the user's problem most effectively.</li>
+                <li><strong>Data-Driven Decisions:</strong> Use data to guide your decisions, but don't let it replace human judgment entirely.</li>
+                <li><strong>Agile Development:</strong> Break large problems into small, manageable pieces that can be tackled incrementally.</li>
+                <li><strong>Continuous Learning:</strong> The technology landscape changes rapidly. Stay curious and keep learning.</li>
+            </ul>
             
-            <p>Design your system so that when non-critical components fail, the core functionality continues to work. For example, if your analytics pipeline goes down, the main data processing should continue, just without the real-time dashboards.</p>
+            <h2>Finding the Balance</h2>
             
-            <h2>Make It Testable</h2>
+            <p>The most successful projects I've worked on combine the best of both approaches. They use NASA's rigorous systems thinking and risk management, but apply Silicon Valley's rapid iteration and user-centric design.</p>
             
-            <p>Automated systems need automated testing. This includes unit tests for individual components, integration tests for the full pipeline, and end-to-end tests that verify the system works as expected from a user's perspective.</p>
+            <h3>When to Use Each Approach</h3>
             
-            <p>But testing automated systems is tricky because they often depend on external services, databases, and file systems. Use dependency injection and mocking to make your tests reliable and fast.</p>
+            <p><strong>Use the NASA approach when:</strong></p>
+            <ul>
+                <li>Failure has serious consequences (safety, security, financial)</li>
+                <li>You're working with complex, interdependent systems</li>
+                <li>Requirements are well-defined and unlikely to change</li>
+                <li>You have time to plan and test thoroughly</li>
+            </ul>
             
-            <h2>Plan for Change</h2>
+            <p><strong>Use the Silicon Valley approach when:</strong></p>
+            <ul>
+                <li>You're exploring new markets or technologies</li>
+                <li>User needs are unclear or rapidly evolving</li>
+                <li>You need to learn quickly from user feedback</li>
+                <li>Speed to market is more important than perfection</li>
+            </ul>
             
-            <p>Requirements change. Data formats evolve. New regulations require different processing logic. The systems that survive are the ones that can adapt without requiring a complete rewrite.</p>
+            <h2>Cross-Pollination of Ideas</h2>
             
-            <h3>Configuration Over Code</h3>
+            <p>Some of the most interesting innovations happen when ideas from one field are applied to another. For example, the same machine learning techniques used to optimize ad targeting can be applied to optimize spacecraft trajectories. The same data visualization tools used to analyze user behavior can be used to analyze telemetry data from satellites.</p>
             
-            <p>Make your system configurable. Use configuration files, environment variables, or feature flags to control behavior. This allows you to change how the system works without deploying new code.</p>
+            <p>The key is to maintain curiosity about different fields and look for patterns that transcend domain boundaries. The problems might be different, but the underlying principles of good engineering and design are universal.</p>
             
-            <h3>Modular Design</h3>
+            <h2>Looking Forward</h2>
             
-            <p>Break your system into small, focused modules that can be developed, tested, and deployed independently. This makes it easier to update individual components without affecting the entire system.</p>
+            <p>As technology continues to evolve, the boundaries between different industries will continue to blur. The skills that make someone successful in aerospace—systems thinking, risk management, attention to detail—are increasingly valuable in tech. And the skills that make someone successful in tech—rapid iteration, user focus, data-driven decision making—are becoming more important in traditional industries.</p>
             
-            <h2>The Human Factor</h2>
-            
-            <p>Even the most automated systems need human oversight. Someone needs to monitor the system, investigate failures, and make decisions when unexpected situations arise.</p>
-            
-            <p>Design your system with humans in mind. Make error messages clear and actionable. Provide good documentation. Create runbooks for common failure scenarios. The goal is to make it easy for humans to understand and maintain the system.</p>
-            
-            <h2>Lessons Learned</h2>
-            
-            <p>Building automated systems that actually work is an ongoing process. You'll make mistakes, learn from them, and improve your approach. The key is to start simple, monitor everything, and iterate based on real-world feedback.</p>
-            
-            <p>Remember: automation is a tool, not a goal. The goal is to solve problems efficiently and reliably. Sometimes that means automating everything. Sometimes it means automating nothing. Most of the time, it means finding the right balance.</p>
+            <p>The future belongs to those who can bridge these worlds, bringing the best practices from each to solve problems that span multiple domains. Whether you're building the next generation of spacecraft or the next generation of software, the principles of good engineering remain the same: understand the problem, design a solution, test it thoroughly, and iterate based on feedback.</p>
         </main>
         
         <footer class="blog-footer">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Future of Predictive Analytics in Government - Alexander Le</title>
+    <title>Building Automated Systems That Actually Work - Alexander Le</title>
     <link rel="icon" type="image/svg+xml" href="Logo.svg">
     
     <!-- Fonts -->
@@ -230,65 +230,87 @@
     <div class="container">
         <header class="blog-header">
             <nav class="blog-nav">
-                <a href="index.html" class="back-link">
+                <a href="../index.html" class="back-link">
                     <ion-icon name="arrow-back-outline"></ion-icon>
                     <span>Back to Portfolio</span>
                 </a>
             </nav>
             
             <div class="blog-meta">
-                <span class="blog-category">Data Science</span>
-                <span>December 2024</span>
+                <span class="blog-category">Technology</span>
+                <span>November 2024</span>
             </div>
             
-            <h1 class="blog-title">The Future of Predictive Analytics in Government</h1>
+            <h1 class="blog-title">Building Automated Systems That Actually Work</h1>
         </header>
         
         <main class="blog-content">
-            <p>Government agencies are sitting on vast amounts of data that could transform how they serve citizens and make policy decisions. From forecasting demand for social services to optimizing resource allocation, predictive analytics has the potential to make government more efficient, responsive, and effective.</p>
+            <p>After working on data processing pipelines that handle millions of records daily, I've learned that the key to building automated systems isn't just writing code that works—it's creating systems that are maintainable, reliable, and can adapt to changing requirements over time.</p>
             
-            <h2>The Current State of Government Data</h2>
+            <h2>The Automation Trap</h2>
             
-            <p>Most government agencies collect enormous amounts of data through their daily operations. This includes everything from citizen service requests and benefit applications to infrastructure maintenance records and public health data. However, much of this data remains underutilized, stored in silos, or analyzed only after problems have already occurred.</p>
+            <p>It's tempting to automate everything. After all, if a process can be automated, why waste human time on it? But automation without careful planning often leads to brittle systems that break when conditions change, or worse, systems that work perfectly until they don't—and then fail catastrophically.</p>
             
-            <p>The challenge isn't just technical—it's also cultural and organizational. Government agencies often operate with limited budgets, legacy systems, and bureaucratic processes that can slow down innovation. But the potential benefits are too significant to ignore.</p>
+            <p>The most successful automated systems I've built follow a few key principles that I've learned through trial and error.</p>
             
-            <h2>Key Applications of Predictive Analytics</h2>
+            <h2>Design for Observability</h2>
             
-            <h3>Social Services Optimization</h3>
-            
-            <p>Predictive models can help agencies anticipate demand for services like unemployment benefits, food assistance, and housing support. By analyzing historical patterns, economic indicators, and demographic trends, agencies can better allocate resources and staff to meet citizen needs.</p>
+            <p>You can't fix what you can't see. Every automated system needs comprehensive logging, monitoring, and alerting. This doesn't mean logging everything—that creates noise. Instead, focus on logging the right things at the right level.</p>
             
             <blockquote>
-                "The goal isn't to replace human judgment, but to provide decision-makers with better information to make more informed choices."
+                "The best automated systems are boring. They run quietly in the background, doing their job without drama."
             </blockquote>
             
-            <h3>Infrastructure Maintenance</h3>
-            
-            <p>Smart cities are using predictive analytics to optimize maintenance schedules for roads, bridges, and utilities. By analyzing sensor data, weather patterns, and usage statistics, cities can identify potential problems before they become costly failures.</p>
-            
-            <h3>Public Health and Safety</h3>
-            
-            <p>During the COVID-19 pandemic, we saw how data modeling could help predict disease spread and inform public health decisions. Similar approaches can be applied to other health challenges, from predicting flu outbreaks to identifying areas at risk for food insecurity.</p>
-            
-            <h2>Implementation Challenges</h2>
-            
-            <p>While the potential is enormous, implementing predictive analytics in government comes with unique challenges:</p>
+            <h3>Key Metrics to Track</h3>
             
             <ul>
-                <li><strong>Data Quality and Integration:</strong> Government data is often fragmented across different systems and departments</li>
-                <li><strong>Privacy and Security:</strong> Citizen data must be protected while still enabling useful analysis</li>
-                <li><strong>Change Management:</strong> Government employees need training and support to adopt new analytical tools</li>
-                <li><strong>Regulatory Compliance:</strong> Agencies must navigate complex legal requirements around data use</li>
+                <li><strong>Throughput:</strong> How many records are being processed per hour?</li>
+                <li><strong>Latency:</strong> How long does it take to process a single record?</li>
+                <li><strong>Error Rate:</strong> What percentage of records fail processing?</li>
+                <li><strong>Resource Usage:</strong> CPU, memory, and disk utilization patterns</li>
             </ul>
             
-            <h2>The Path Forward</h2>
+            <h2>Build in Resilience</h2>
             
-            <p>Successful implementation requires a strategic approach that combines technical excellence with organizational change management. Agencies should start with pilot projects that demonstrate clear value, then gradually expand their analytical capabilities.</p>
+            <p>Systems will fail. Networks will go down. Databases will become unavailable. The question isn't whether these things will happen, but how your system will respond when they do.</p>
             
-            <p>Partnerships with academic institutions, private companies, and other government agencies can help accelerate progress. The key is to focus on problems where predictive analytics can make a real difference in people's lives.</p>
+            <h3>Retry Logic and Circuit Breakers</h3>
             
-            <p>As we move forward, the question isn't whether government will embrace predictive analytics, but how quickly and effectively they can do so. The agencies that invest in these capabilities today will be better positioned to serve their citizens tomorrow.</p>
+            <p>Implement exponential backoff for retries, and use circuit breakers to prevent cascading failures. If a downstream service is consistently failing, stop calling it for a while rather than continuing to hammer it with requests.</p>
+            
+            <h3>Graceful Degradation</h3>
+            
+            <p>Design your system so that when non-critical components fail, the core functionality continues to work. For example, if your analytics pipeline goes down, the main data processing should continue, just without the real-time dashboards.</p>
+            
+            <h2>Make It Testable</h2>
+            
+            <p>Automated systems need automated testing. This includes unit tests for individual components, integration tests for the full pipeline, and end-to-end tests that verify the system works as expected from a user's perspective.</p>
+            
+            <p>But testing automated systems is tricky because they often depend on external services, databases, and file systems. Use dependency injection and mocking to make your tests reliable and fast.</p>
+            
+            <h2>Plan for Change</h2>
+            
+            <p>Requirements change. Data formats evolve. New regulations require different processing logic. The systems that survive are the ones that can adapt without requiring a complete rewrite.</p>
+            
+            <h3>Configuration Over Code</h3>
+            
+            <p>Make your system configurable. Use configuration files, environment variables, or feature flags to control behavior. This allows you to change how the system works without deploying new code.</p>
+            
+            <h3>Modular Design</h3>
+            
+            <p>Break your system into small, focused modules that can be developed, tested, and deployed independently. This makes it easier to update individual components without affecting the entire system.</p>
+            
+            <h2>The Human Factor</h2>
+            
+            <p>Even the most automated systems need human oversight. Someone needs to monitor the system, investigate failures, and make decisions when unexpected situations arise.</p>
+            
+            <p>Design your system with humans in mind. Make error messages clear and actionable. Provide good documentation. Create runbooks for common failure scenarios. The goal is to make it easy for humans to understand and maintain the system.</p>
+            
+            <h2>Lessons Learned</h2>
+            
+            <p>Building automated systems that actually work is an ongoing process. You'll make mistakes, learn from them, and improve your approach. The key is to start simple, monitor everything, and iterate based on real-world feedback.</p>
+            
+            <p>Remember: automation is a tool, not a goal. The goal is to solve problems efficiently and reliably. Sometimes that means automating everything. Sometimes it means automating nothing. Most of the time, it means finding the right balance.</p>
         </main>
         
         <footer class="blog-footer">
