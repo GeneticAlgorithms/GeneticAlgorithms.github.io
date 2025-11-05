@@ -281,7 +281,7 @@
            UTILITY CLASSES
         ============================================= */
         .container {
-            max-width: 1200px;
+            max-width: min(1200px, 90vw);
             margin: 0 auto;
             padding: 0 var(--container-padding);
         }
@@ -548,7 +548,7 @@
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-size: clamp(1.05rem, 2.3vw, 1.35rem);
             font-weight: 500;
             position: relative;
             transition: var(--transition-smooth);
@@ -848,7 +848,7 @@
         }
 
         .hero-content {
-            max-width: 50rem;
+            max-width: min(50rem, 85vw);
         }
 
         .hero-subtitle {
@@ -967,7 +967,7 @@
             font-size: 1.125rem;
             color: var(--text-secondary);
             margin-bottom: var(--space-md);
-            max-width: 37.5rem;
+            max-width: min(37.5rem, 85vw);
             line-height: 1.6;
             font-weight: 400;
         }
@@ -975,43 +975,46 @@
         .hero-links {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-lg);
+            gap: var(--space-md);
             margin-bottom: var(--space-xl);
             margin-top: var(--space-lg);
-            max-width: 800px;
+            max-width: min(600px, 85vw);
+            width: 100%;
         }
         
-        .cta-buttons {
-            display: flex;
-            gap: var(--space-lg);
-            margin-top: var(--space-lg);
-            flex-wrap: wrap;
+        .hero-links > * {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
+            gap: var(--space-xs);
             color: var(--text-primary);
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 1rem;
             font-weight: 500;
-            padding: var(--space-md) var(--space-lg);
+            padding: var(--space-xs) var(--space-sm);
             border: 2px solid rgba(0, 212, 255, 0.3);
             border-radius: 8px;
             background: rgba(0, 212, 255, 0.08);
             transition: var(--transition-smooth);
-            min-width: 140px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         .social-link ion-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         
         .social-link svg {
-            width: 2rem;
-            height: 2rem;
+            width: 1.5rem;
+            height: 1.5rem;
         }
 
         .social-link:hover {
@@ -1023,22 +1026,25 @@
         }
 
         .cta-button {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md) var(--space-lg);
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
             background: rgba(0, 212, 255, 0.08);
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.5rem;
+            font-size: 1rem;
             border-radius: 8px;
             transition: var(--transition-smooth);
             border: 2px solid rgba(0, 212, 255, 0.3);
             position: relative;
             overflow: hidden;
-            min-width: 140px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         .cta-button::before {
@@ -1046,7 +1052,7 @@
         }
 
         .cta-button ion-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
 
         .cta-button:hover {
@@ -1073,7 +1079,7 @@
             font-size: 1rem;
             color: var(--text-muted);
             margin-bottom: var(--space-3xl);
-            max-width: 37.5rem;
+            max-width: min(37.5rem, 85vw);
             margin-left: auto;
             margin-right: auto;
             font-weight: 400;
@@ -1325,7 +1331,7 @@
            ABOUT SECTION
         ============================================= */
         .about-content {
-            max-width: 90rem;
+            max-width: min(90rem, 95vw);
             margin: 0 auto;
             background: rgba(15, 15, 15, 0.6);
             padding: var(--space-2xl);
@@ -1366,7 +1372,7 @@
             justify-items: center;
             align-items: center;
             width: 100%;
-            max-width: 1200px;
+            max-width: min(1200px, 95vw);
         }
 
         /* Responsive photo grid - wraps on smaller screens */
@@ -1885,7 +1891,7 @@
         .writing-grid {
             display: grid;
             gap: var(--space-xl);
-            max-width: 50rem;
+            max-width: min(50rem, 90vw);
             margin: 0 auto;
         }
 
@@ -1981,10 +1987,10 @@
            CONTACT SECTION
         ============================================= */
         .contact-content {
-            max-width: 60rem;
+            max-width: min(60rem, 92vw);
             margin: 0 auto;
             background: rgba(15, 15, 15, 0.6);
-            padding: 4rem 5rem;
+            padding: clamp(2rem, 4vw, 4rem) clamp(2rem, 5vw, 5rem);
             border-radius: 30px;
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
@@ -2549,10 +2555,21 @@
         @media (max-width: 480px) {
             .hero {
                 padding-top: 5.5rem;
+                align-items: flex-start;
+                text-align: left;
             }
             
             .hero h1 {
                 font-size: clamp(1.8rem, 6vw, 3rem);
+                text-align: left;
+            }
+            
+            .hero-content {
+                text-align: left;
+            }
+            
+            .hero-description {
+                text-align: left;
             }
 
             .section-title {
@@ -2608,17 +2625,32 @@
         @media (max-width: 768px) {
             /* Fix hero section layout for mobile */
             .hero {
-                padding-top: 5rem !important;
+                padding-top: 4rem !important;
                 padding-left: 1rem;
                 padding-right: 1rem;
-                align-items: center;
-                text-align: center;
+                align-items: flex-start;
+                text-align: left;
+                min-height: auto;
             }
             
             .hero-content {
                 margin-top: 0 !important;
                 max-width: 100%;
                 width: 100%;
+                text-align: left;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+                margin-bottom: var(--space-md);
+            }
+            
+            .hero h1 {
+                text-align: left;
+            }
+            
+            .hero-description {
+                text-align: left;
             }
             
             /* Reduce ticker height and spacing on mobile */
@@ -2704,7 +2736,7 @@
             
             .cta-buttons a {
                 width: 100%;
-                max-width: 280px;
+                max-width: min(280px, 80vw);
                 text-align: center;
                 padding: 0.875rem 1.5rem;
             }
@@ -2713,20 +2745,21 @@
             .hero-links {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(2, 1fr);
-                gap: 0.75rem;
+                grid-template-rows: repeat(3, 1fr);
+                gap: 0.5rem;
                 justify-items: center;
                 margin-bottom: 1.5rem;
-                max-width: 100%;
+                max-width: min(500px, 90vw);
+                width: 100%;
             }
             
             .hero-links a {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                gap: var(--space-sm);
-                padding: var(--space-md) var(--space-lg);
-                font-size: 1.25rem;
+                gap: var(--space-xs);
+                padding: var(--space-xs) var(--space-sm);
+                font-size: 0.875rem;
                 min-width: 0;
                 text-align: center;
                 width: 100%;
@@ -2734,11 +2767,16 @@
             }
             
             .hero-links a ion-icon {
-                font-size: 1.75rem;
+                font-size: 1.25rem;
+            }
+            
+            .hero-links a svg {
+                width: 1.25rem;
+                height: 1.25rem;
             }
             
             .hero-links a span {
-                font-size: 1.25rem;
+                font-size: 0.875rem;
                 white-space: nowrap;
             }
         }
@@ -2756,9 +2794,29 @@
             }
             
             .hero { 
-                padding-top: 7.5rem !important; /* Account for nav + ticker on mobile */
+                padding-top: 3.5rem !important; /* Reduced to show Fiat Lux */
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
+                align-items: flex-start;
+                text-align: left;
+                min-height: auto;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: var(--space-sm);
+            }
+            
+            .hero-content {
+                text-align: left;
+            }
+            
+            .hero h1 {
+                text-align: left;
+            }
+            
+            .hero-description {
+                text-align: left;
             }
             
             .gallery-photo {
@@ -2792,21 +2850,27 @@
             /* Make hero links even more compact on small screens */
             .hero-links {
                 grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
                 gap: 0.4rem;
+                max-width: min(450px, 88vw);
             }
             
             .hero-links a {
-                padding: 0.3rem 0.1rem;
-                font-size: 0.7rem;
+                padding: 0.4rem 0.25rem;
+                font-size: 0.75rem;
             }
             
             .hero-links a ion-icon {
-                font-size: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .hero-links a svg {
+                width: 1.1rem;
+                height: 1.1rem;
             }
             
             .hero-links a span {
-                font-size: 0.6rem;
+                font-size: 0.75rem;
             }
             
         }
@@ -3163,7 +3227,7 @@
                 </p>
                 
                 <div class="hero-links">
-                    <a href="#" class="social-link" target="_blank">
+                    <a href="https://www.youtube.com/@genetic.algorithms" class="social-link" target="_blank">
                         <ion-icon name="logo-youtube"></ion-icon>
                         <span>YouTube</span>
                     </a>
@@ -3189,9 +3253,6 @@
                         <ion-icon name="logo-instagram"></ion-icon>
                         <span>Instagram</span>
                     </a>
-                </div>
-                
-                <div class="cta-buttons">
                     <a href="#contact" class="cta-button">
                         <span>Let's Connect</span>
                         <ion-icon name="arrow-forward-outline"></ion-icon>
