@@ -368,7 +368,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: var(--space-xs) var(--container-padding);
+            padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 4vw, 2.5rem);
             position: relative;
             z-index: 2;
         }
@@ -402,7 +402,7 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: var(--space-md);
+            gap: clamp(0.75rem, 2vw, 1.5rem);
             text-decoration: none;
             color: var(--text-primary);
         }
@@ -541,7 +541,7 @@
 
         .nav-links {
             display: flex;
-            gap: var(--space-md);
+            gap: clamp(0.75rem, 2vw, 1.5rem);
             list-style: none;
         }
 
@@ -553,7 +553,7 @@
             position: relative;
             transition: var(--transition-smooth);
             letter-spacing: 0.02em;
-            padding: var(--space-xs) var(--space-sm);
+            padding: clamp(0.4rem, 1.2vw, 0.5rem) clamp(0.75rem, 2vw, 1rem);
         }
 
         .nav-links a:hover {
@@ -595,9 +595,9 @@
             background: none;
             border: none;
             color: var(--text-primary);
-            font-size: 1.5rem;
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
             cursor: pointer;
-            padding: var(--space-xs);
+            padding: clamp(0.4rem, 1.2vw, 0.5rem);
             transition: var(--transition-smooth);
         }
         
@@ -2499,14 +2499,14 @@
             }
 
             .nav {
-                padding: clamp(0.25rem, 2vw, 0.6rem) var(--container-padding);
+                padding: clamp(0.25rem, 2vw, 0.6rem) 0;
                 box-sizing: border-box;
                 width: 100%;
             }
 
             .nav-header {
                 min-height: clamp(48px, 9vw, 64px);
-                padding: clamp(0.25rem, 2vw, 0.6rem) var(--container-padding);
+                padding: clamp(0.25rem, 2vw, 0.6rem) clamp(0.75rem, 3vw, 1.25rem);
             }
 
             .mobile-menu-btn {
@@ -2640,11 +2640,15 @@
             }
             
             .nav {
-                padding: var(--space-xs) var(--container-padding);
+                padding: var(--space-xs) 0;
+            }
+            
+            .nav-header {
+                padding: var(--space-xs) clamp(0.5rem, 2.5vw, 1rem);
             }
             
             .hero {
-                padding-top: 5rem;
+                padding-top: clamp(110px, 23vw, 130px) !important; /* Account for nav (~55px) + ticker (35px) + spacing */
             }
             
             .logo-stack {
@@ -2670,9 +2674,9 @@
         @media (max-width: 768px) {
             /* Fix hero section layout for mobile */
             .hero {
-                padding-top: 2rem !important;
-                padding-left: 1rem;
-                padding-right: 1rem;
+                padding-top: clamp(120px, 25vw, 140px) !important; /* Account for nav (~65px) + ticker (40px) + spacing */
+                padding-left: clamp(0.75rem, 3vw, 1rem);
+                padding-right: clamp(0.75rem, 3vw, 1rem);
                 align-items: flex-start;
                 text-align: left;
                 min-height: auto;
@@ -2702,7 +2706,7 @@
             }
             
             .hero-subtitle {
-                font-size: 0.9rem;
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
                 margin-bottom: 0.5rem;
                 margin-top: 0;
                 padding-top: 0;
@@ -2750,10 +2754,6 @@
             .info-ticker { 
                 height: 40px !important;
                 font-size: 0.75rem;
-            }
-            
-            .hero {
-                padding-top: 8.5rem; /* Account for nav + ticker on tablet */
             }
             
             .ticker-item { 
@@ -2887,9 +2887,9 @@
             }
             
             .hero { 
-                padding-top: 1.5rem !important; /* Reduced to show Fiat Lux */
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
+                padding-top: clamp(110px, 23vw, 130px) !important; /* Account for nav (~55px) + ticker (35px) + spacing */
+                padding-left: clamp(0.5rem, 2.5vw, 0.75rem);
+                padding-right: clamp(0.5rem, 2.5vw, 0.75rem);
                 align-items: flex-start;
                 text-align: left;
                 min-height: auto;
