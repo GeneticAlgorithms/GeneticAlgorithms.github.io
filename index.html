@@ -1995,6 +1995,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.2);
+            text-align: left;
         }
 
         .contact-content p {
@@ -2003,6 +2004,38 @@
             margin-bottom: 3rem;
             font-weight: 400;
             line-height: 1.6;
+            text-align: left;
+        }
+
+        .spam-warning {
+            font-size: 1rem;
+            color: rgba(255, 193, 7, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: left;
+            padding: 1rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid rgba(255, 193, 7, 0.5);
+            border-radius: 4px;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================= */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            margin: 0;
+            color: var(--text-secondary);
+            opacity: 0.7;
         }
 
         .contact-info {
@@ -3678,10 +3711,13 @@
     ============================================= -->
     <section id="contact" class="section">
         <div class="container">
-            <h2 class="section-title text-center">Get In Touch</h2>
-            <div class="contact-content text-center">
+            <h2 class="section-title text-center">Contact</h2>
+            <div class="contact-content">
                 <p>
-                    Want to collaborate on data science projects or discuss quantitative finance and AI? Let's connect!
+                    I'd love to learn more about exciting new oportunities!
+                </p>
+                <p class="spam-warning">
+                    ⚠️ Warning for spammers: I'm a trained offensive security worker who has competed in government cybersecurity competitions and will vet all inquiries :)
                 </p>
                 <div class="contact-info">
                     <a href="mailto:legendare@berkeley.edu" class="contact-item">
@@ -4883,5 +4919,12 @@
             initTicker();
         });
     </script>
+
+    <!-- ============================================
+         FOOTER
+    ============================================= -->
+    <footer class="footer">
+        <p>Made with <3 by Alexander Le</p>
+    </footer>
 </body>
 </html>
