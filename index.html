@@ -3985,37 +3985,247 @@
         function createShootingStar() {
             const group = new THREE.Group();
             
-            // Create the main star with enhanced glow
-            const starGeometry = new THREE.SphereGeometry(0.4, 12, 12);
+            // Create the main star head - bright white dot
+            const starGeometry = new THREE.SphereGeometry(0.3, 12, 12);
             const starMaterial = new THREE.MeshBasicMaterial({
-                color: new THREE.Color().setHSL(0.6, 0.9, 1.2),
+                color: 0xFFFFFF,
                 transparent: true,
-                opacity: 1.0
+                opacity: 1.0,
+                blending: THREE.AdditiveBlending
             });
             const star = new THREE.Mesh(starGeometry, starMaterial);
             group.add(star);
             
-            // Create the tail using a line
-            const tailGeometry = new THREE.BufferGeometry();
-            const tailVertices = [];
-            const tailLength = 15;
+            // Create the tail as a plane with gradient shader (like CSS linear-gradient)
+            // Tail length and width that will animate
+            const tailLength = 100;
+            const tailWidth = 0.5;
             
-            for (let i = 0; i < tailLength; i++) {
-                tailVertices.push(
-                    -i * 2, 0, 0,
-                    -(i + 1) * 2, 0, 0
-                );
-            }
+            // Create a plane for the tail (rotated -45 degrees like CSS)
+            const tailGeometry = new THREE.PlaneGeometry(tailLength, tailWidth);
             
-            tailGeometry.setAttribute('position', new THREE.Float32BufferAttribute(tailVertices, 3));
-            
-            const tailMaterial = new THREE.LineBasicMaterial({
-                color: new THREE.Color().setHSL(0.6, 0.9, 1.0),
+            // Custom shader material with dithering effect
+            const tailMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    opacity: { value: 1.0 },
+                    tailProgress: { value: 1.0 },
+                    time: { value: 0.0 },
+                    resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    varying vec4 vScreenPosition;
+                    void main() {
+                        vUv = uv;
+                        vScreenPosition = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        gl_Position = vScreenPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform float opacity;
+                    uniform float tailProgress;
+                    uniform float time;
+                    uniform vec2 resolution;
+                    varying vec2 vUv;
+                    varying vec4 vScreenPosition;
+                    
+                    // Floyd-Steinberg dithering approximation
+                    // Uses error diffusion pattern to simulate FS dithering
+                    float floydSteinbergDither(vec2 pos, float value) {
+                        // Calculate quantization error
+                        float quantized = floor(value * 2.0) / 2.0;
+                        float error = value - quantized;
+                        
+                        // Floyd-Steinberg error distribution pattern
+                        // Neighboring pixels get error diffusion weights:
+                        //     X 7/16
+                        // 3/16 5/16 1/16
+                        vec2 ipos = floor(pos);
+                        float pattern = 0.0;
+                        
+                        // Current pixel (X) - no error added
+                        // Right pixel gets 7/16 of error
+                        if (mod(ipos.x, 2.0) == 0.0) {
+                            pattern += 0.4375; // 7/16
+                        }
+                        // Bottom-left gets 3/16 of error
+                        if (mod(ipos.y, 2.0) == 0.0 && mod(ipos.x, 2.0) == 1.0) {
+                            pattern += 0.1875; // 3/16
+                        }
+                        // Bottom gets 5/16 of error
+                        if (mod(ipos.y, 2.0) == 0.0) {
+                            pattern += 0.3125; // 5/16
+                        }
+                        // Bottom-right gets 1/16 of error
+                        if (mod(ipos.y, 2.0) == 0.0 && mod(ipos.x, 2.0) == 0.0) {
+                            pattern += 0.0625; // 1/16
+                        }
+                        
+                        // Apply error diffusion
+                        float threshold = pattern;
+                        float dithered = value + (error * threshold);
+                        
+                        return dithered;
+                    }
+                    
+                    // Alternative: Screen-space Floyd-Steinberg approximation
+                    float floydSteinbergApprox(vec2 screenPos, float value) {
+                        vec2 pixel = floor(screenPos);
+                        
+                        // Create error diffusion pattern based on pixel position
+                        float error = value - floor(value * 8.0) / 8.0;
+                        
+                        // Simulate error diffusion to neighboring pixels
+                        float xOffset = mod(pixel.x, 2.0);
+                        float yOffset = mod(pixel.y, 2.0);
+                        
+                        // Floyd-Steinberg kernel weights applied via pattern
+                        float kernel = 0.0;
+                        if (yOffset < 0.5) {
+                            // Current row
+                            kernel += xOffset * 0.4375; // Right (7/16)
+                        } else {
+                            // Next row
+                            kernel += (1.0 - xOffset) * 0.1875; // Bottom-left (3/16)
+                            kernel += 0.3125; // Bottom (5/16)
+                            kernel += xOffset * 0.0625; // Bottom-right (1/16)
+                        }
+                        
+                        return value + error * kernel * 0.5;
+                    }
+                    
+                    void main() {
+                        // Create gradient along the tail
+                        float gradient = vUv.x; // 0 at left (tail), 1 at right (head)
+                        
+                        // Apply tail progress animation
+                        gradient = gradient * tailProgress;
+                        if (gradient > 1.0) discard;
+                        
+                        // White to transparent gradient
+                        vec3 whiteColor = vec3(1.0, 1.0, 1.0);
+                        float alpha = (1.0 - gradient) * opacity;
+                        
+                        // Add glow effect
+                        float glow = 1.0 + smoothstep(0.0, 0.3, gradient) * 2.0;
+                        
+                        // Screen space position for dithering
+                        vec2 screenPos = (vScreenPosition.xy / vScreenPosition.w) * 0.5 + 0.5;
+                        screenPos *= resolution;
+                        
+                        // Apply Floyd-Steinberg dithering
+                        float ditheredAlpha = floydSteinbergApprox(screenPos, alpha);
+                        alpha = clamp(ditheredAlpha, 0.0, 1.0);
+                        
+                        // Add subtle noise for more organic feel
+                        float noise = fract(sin(dot(screenPos + time, vec2(12.9898, 78.233))) * 43758.5453);
+                        alpha = alpha + (noise - 0.5) * 0.03;
+                        alpha = clamp(alpha, 0.0, 1.0);
+                        
+                        gl_FragColor = vec4(whiteColor * glow, alpha);
+                    }
+                `,
                 transparent: true,
-                opacity: 0.8
+                blending: THREE.AdditiveBlending,
+                side: THREE.DoubleSide,
+                depthWrite: false
             });
-            const tail = new THREE.LineSegments(tailGeometry, tailMaterial);
+            
+            const tail = new THREE.Mesh(tailGeometry, tailMaterial);
+            // Rotate -45 degrees (like CSS transform: rotateZ(-45deg))
+            tail.rotation.z = -Math.PI / 4;
+            // Position tail so it extends backward from the star
+            tail.position.x = -tailLength / 2;
             group.add(tail);
+            
+            // Create sparkle cross effect with dithering
+            const sparkleGeometry = new THREE.PlaneGeometry(30, 1);
+            const sparkleMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    opacity: { value: 1.0 },
+                    sparkleProgress: { value: 0.0 },
+                    time: { value: 0.0 },
+                    resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    varying vec4 vScreenPosition;
+                    void main() {
+                        vUv = uv;
+                        vScreenPosition = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        gl_Position = vScreenPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform float opacity;
+                    uniform float sparkleProgress;
+                    uniform float time;
+                    uniform vec2 resolution;
+                    varying vec2 vUv;
+                    varying vec4 vScreenPosition;
+                    
+                    // Floyd-Steinberg dithering approximation
+                    float floydSteinbergApprox(vec2 screenPos, float value) {
+                        vec2 pixel = floor(screenPos);
+                        
+                        // Create error diffusion pattern based on pixel position
+                        float error = value - floor(value * 8.0) / 8.0;
+                        
+                        // Simulate error diffusion to neighboring pixels
+                        float xOffset = mod(pixel.x, 2.0);
+                        float yOffset = mod(pixel.y, 2.0);
+                        
+                        // Floyd-Steinberg kernel weights applied via pattern
+                        float kernel = 0.0;
+                        if (yOffset < 0.5) {
+                            // Current row
+                            kernel += xOffset * 0.4375; // Right (7/16)
+                        } else {
+                            // Next row
+                            kernel += (1.0 - xOffset) * 0.1875; // Bottom-left (3/16)
+                            kernel += 0.3125; // Bottom (5/16)
+                            kernel += xOffset * 0.0625; // Bottom-right (1/16)
+                        }
+                        
+                        return value + error * kernel * 0.5;
+                    }
+                    
+                    void main() {
+                        // Create gradient from transparent -> white -> transparent
+                        float gradient = abs(vUv.x - 0.5) * 2.0; // 0 at center, 1 at edges
+                        float alpha = (1.0 - gradient) * sparkleProgress * opacity;
+                        
+                        // Screen space position for dithering
+                        vec2 screenPos = (vScreenPosition.xy / vScreenPosition.w) * 0.5 + 0.5;
+                        screenPos *= resolution;
+                        
+                        // Apply Floyd-Steinberg dithering
+                        float ditheredAlpha = floydSteinbergApprox(screenPos, alpha);
+                        alpha = clamp(ditheredAlpha, 0.0, 1.0);
+                        
+                        // Add subtle sparkle effect
+                        float sparkle = sin(gradient * 10.0 + time * 5.0) * 0.3 + 0.7;
+                        alpha *= sparkle;
+                        
+                        vec3 whiteColor = vec3(1.0, 1.0, 1.0);
+                        gl_FragColor = vec4(whiteColor, alpha);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+            
+            // Create two sparkles rotated at 45 and -45 degrees
+            const sparkle1 = new THREE.Mesh(sparkleGeometry, sparkleMaterial);
+            sparkle1.rotation.z = Math.PI / 4;
+            sparkle1.position.x = -tailLength / 2;
+            group.add(sparkle1);
+            
+            const sparkle2 = new THREE.Mesh(sparkleGeometry, sparkleMaterial.clone());
+            sparkle2.rotation.z = -Math.PI / 4;
+            sparkle2.position.x = -tailLength / 2;
+            group.add(sparkle2);
             
             // Set random starting position and trajectory
             const startX = (Math.random() - 0.5) * 800;
@@ -4037,7 +4247,10 @@
                 life: 1.0,
                 maxLife: 1.0,
                 tail: tail,
-                star: star
+                star: star,
+                sparkle1: sparkle1,
+                sparkle2: sparkle2,
+                animationTime: 0
             };
             
             return group;
@@ -4063,13 +4276,74 @@
                 // Update position
                 shootingStar.position.add(userData.velocity);
                 
+                // Update animation time (3 second cycle like CSS)
+                userData.animationTime += 0.016; // ~60fps
+                if (userData.animationTime > 3.0) {
+                    userData.animationTime = 0.0;
+                }
+                
+                // Calculate tail progress (0 to 1, like CSS animation)
+                // 0% -> 0, 30% -> 1, 100% -> 0
+                let tailProgress = 0;
+                const t = (userData.animationTime % 3.0) / 3.0;
+                if (t < 0.3) {
+                    tailProgress = t / 0.3; // 0 to 1
+                } else {
+                    tailProgress = 1.0 - ((t - 0.3) / 0.7); // 1 to 0
+                }
+                
+                // Calculate sparkle progress (0 to 1, like CSS animation)
+                // 0% -> 0, 50% -> 1, 100% -> 0
+                let sparkleProgress = 0;
+                if (t < 0.5) {
+                    sparkleProgress = t / 0.5; // 0 to 1
+                } else {
+                    sparkleProgress = 1.0 - ((t - 0.5) / 0.5); // 1 to 0
+                }
+                
                 // Decrease life
                 userData.life -= 0.005;
                 
                 // Update opacity based on life
                 const opacity = Math.max(0, userData.life);
-                userData.star.material.opacity = opacity * 0.9;
-                userData.tail.material.opacity = opacity * 0.6;
+                userData.star.material.opacity = opacity * 1.0;
+                
+                // Update tail animation with time for dithering
+                if (userData.tail && userData.tail.material.uniforms) {
+                    userData.tail.material.uniforms.opacity.value = opacity;
+                    userData.tail.material.uniforms.tailProgress.value = tailProgress;
+                    if (userData.tail.material.uniforms.time) {
+                        userData.tail.material.uniforms.time.value = time;
+                    }
+                    if (userData.tail.material.uniforms.resolution) {
+                        userData.tail.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+                    }
+                    userData.tail.material.uniformsNeedUpdate = true;
+                }
+                
+                // Update sparkle animation with time for dithering
+                if (userData.sparkle1 && userData.sparkle1.material.uniforms) {
+                    userData.sparkle1.material.uniforms.opacity.value = opacity;
+                    userData.sparkle1.material.uniforms.sparkleProgress.value = sparkleProgress;
+                    if (userData.sparkle1.material.uniforms.time) {
+                        userData.sparkle1.material.uniforms.time.value = time;
+                    }
+                    if (userData.sparkle1.material.uniforms.resolution) {
+                        userData.sparkle1.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+                    }
+                    userData.sparkle1.material.uniformsNeedUpdate = true;
+                }
+                if (userData.sparkle2 && userData.sparkle2.material.uniforms) {
+                    userData.sparkle2.material.uniforms.opacity.value = opacity;
+                    userData.sparkle2.material.uniforms.sparkleProgress.value = sparkleProgress;
+                    if (userData.sparkle2.material.uniforms.time) {
+                        userData.sparkle2.material.uniforms.time.value = time;
+                    }
+                    if (userData.sparkle2.material.uniforms.resolution) {
+                        userData.sparkle2.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+                    }
+                    userData.sparkle2.material.uniformsNeedUpdate = true;
+                }
                 
                 // Reset shooting star when it dies or goes off screen
                 if (userData.life <= 0 || 
