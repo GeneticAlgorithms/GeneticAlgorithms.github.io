@@ -664,7 +664,7 @@
         }
         
         /* Sebastian-inspired bottom navigation for mobile */
-        .mobile-bottom-nav {
+            .mobile-bottom-nav {
             display: none;
             position: fixed;
             bottom: 0;
@@ -674,7 +674,7 @@
             background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 0;
+            padding: clamp(0.25rem, 2vw, 0.5rem) 0;
         }
         
         .mobile-bottom-nav.active {
@@ -712,12 +712,12 @@
             color: var(--primary-blue);
         }
         
-        .mobile-nav-icon {
-            font-size: 1.25rem;
+            .mobile-nav-icon {
+            font-size: clamp(1rem, 5.5vw, 1.35rem);
         }
         
-        .mobile-nav-label {
-            font-size: 0.75rem;
+            .mobile-nav-label {
+            font-size: clamp(0.65rem, 3.2vw, 0.8rem);
             font-weight: 500;
             white-space: nowrap;
         }
@@ -2499,7 +2499,19 @@
             }
 
             .nav {
-                padding: var(--space-sm) var(--container-padding);
+                padding: clamp(0.25rem, 2vw, 0.6rem) var(--container-padding);
+                box-sizing: border-box;
+                width: 100%;
+            }
+
+            .nav-header {
+                min-height: clamp(48px, 9vw, 64px);
+                padding: clamp(0.25rem, 2vw, 0.6rem) var(--container-padding);
+            }
+
+            .mobile-menu-btn {
+                font-size: clamp(1.25rem, 5vw, 1.75rem);
+                padding: clamp(0.25rem, 2vw, 0.5rem);
             }
 
             .nav-links {
