@@ -5,7 +5,7 @@
          META TAGS & BASIC SETUP
     ============================================= -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Alexander Le</title>
     <meta name="description" content="Alexander Le">
     <meta name="author" content="Alexander Le">
@@ -110,6 +110,23 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        /* Prevent horizontal overflow */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        /* Ensure media elements scale properly */
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure SVG scales properly while preserving aspect ratio */
+        svg {
+            max-width: 100%;
+        }
 
         /* Custom Glowing Cursor */
         * {
@@ -183,7 +200,8 @@
 
         html {
             scroll-behavior: smooth;
-            font-size: 16px;
+            font-size: clamp(14px, 1.5vw, 16px);
+            overflow-x: hidden;
         }
 
         /* Custom Scrollbar Styling - Inspired by Argus */
@@ -223,11 +241,15 @@
             color: var(--text-primary);
             line-height: 1.5;
             overflow-x: hidden;
+            overflow-y: auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             font-weight: 400;
             letter-spacing: -0.01em;
             position: relative;
+            width: 100%;
+            min-width: 0;
+            max-width: 100vw;
         }
 
         body::before {
@@ -284,11 +306,16 @@
             max-width: min(1200px, 90vw);
             margin: 0 auto;
             padding: 0 var(--container-padding);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .section {
             padding: var(--section-padding) 0;
             position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .section::before {
@@ -329,8 +356,11 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             z-index: -2;
             pointer-events: none;
+            max-width: 100vw;
+            overflow: hidden;
         }
 
         /* Dithering Effect Canvas */
@@ -340,10 +370,13 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
             z-index: -1;
             pointer-events: none;
             opacity: 0.6;
             mix-blend-mode: screen;
+            max-width: 100vw;
+            display: block;
         }
 
         /* ============================================
@@ -354,6 +387,7 @@
             top: 0;
             left: 0;
             width: 100%;
+            max-width: 100vw;
             z-index: 1000;
             backdrop-filter: blur(30px);
             background: rgba(8, 8, 8, 0.85);
@@ -362,6 +396,8 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
         
         .nav-header {
@@ -738,14 +774,19 @@
         ============================================= */
         .hero {
             min-height: 100vh;
+            min-height: 100dvh; /* Use dynamic viewport height for mobile */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
             position: relative;
             z-index: 10;
-            padding-top: 10rem; /* Account for nav header (~70px) + ticker (~45px) + extra spacing */
-            padding-bottom: 3rem;
+            padding-top: clamp(6rem, 15vw, 10rem); /* Responsive padding */
+            padding-bottom: clamp(1.5rem, 4vw, 3rem);
+            padding-left: var(--container-padding);
+            padding-right: var(--container-padding);
+            width: 100%;
+            box-sizing: border-box;
             /* Debug: Make sure hero is visible */
             background: rgba(8, 8, 8, 0.1);
         }
@@ -849,6 +890,8 @@
 
         .hero-content {
             max-width: min(50rem, 85vw);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .hero-subtitle {
@@ -975,16 +1018,18 @@
         .hero-links {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-md);
+            gap: clamp(0.5rem, 2vw, var(--space-md));
             margin-bottom: var(--space-xl);
             margin-top: var(--space-lg);
             max-width: min(600px, 85vw);
             width: 100%;
+            box-sizing: border-box;
         }
         
         .hero-links > * {
             width: 100%;
             max-width: 100%;
+            min-width: 0;
             box-sizing: border-box;
         }
 
@@ -1090,8 +1135,10 @@
         ============================================= */
         .experience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
-            gap: var(--space-xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(21.875rem, 100%), 1fr));
+            gap: clamp(1rem, 3vw, var(--space-xl));
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .experience-card {
@@ -1169,8 +1216,10 @@
         ============================================= */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(21.875rem, 1fr));
-            gap: var(--space-xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(21.875rem, 100%), 1fr));
+            gap: clamp(1rem, 3vw, var(--space-xl));
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .project-card {
@@ -1334,11 +1383,13 @@
             max-width: min(90rem, 95vw);
             margin: 0 auto;
             background: rgba(15, 15, 15, 0.6);
-            padding: var(--space-2xl);
-            border-radius: 20px;
+            padding: clamp(1.5rem, 4vw, var(--space-2xl));
+            border-radius: clamp(12px, 2vw, 20px);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .about-layout {
@@ -1458,6 +1509,15 @@
             height: 100%;
             object-fit: cover;
             border-radius: 50%;
+            max-width: 100%;
+            display: block;
+        }
+        
+        /* Ensure all images scale properly */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
 
@@ -1890,9 +1950,11 @@
         ============================================= */
         .writing-grid {
             display: grid;
-            gap: var(--space-xl);
+            gap: clamp(1rem, 3vw, var(--space-xl));
             max-width: min(50rem, 90vw);
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .writing-post {
@@ -1990,12 +2052,14 @@
             max-width: min(60rem, 92vw);
             margin: 0 auto;
             background: rgba(15, 15, 15, 0.6);
-            padding: clamp(2rem, 4vw, 4rem) clamp(2rem, 5vw, 5rem);
-            border-radius: 30px;
+            padding: clamp(1.5rem, 4vw, 4rem) clamp(1.5rem, 5vw, 5rem);
+            border-radius: clamp(15px, 3vw, 30px);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.2);
             text-align: left;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .contact-content p {
@@ -2476,6 +2540,11 @@
         
         /* Large tablets and small desktops */
         @media (max-width: 1024px) {
+            :root {
+                --container-padding: clamp(1rem, 3vw, 2rem);
+                --section-padding: clamp(3rem, 6vw, 4rem);
+            }
+            
             .nav-links {
                 gap: var(--space-lg);
             }
@@ -2494,8 +2563,13 @@
         /* Tablets */
         @media (max-width: 768px) {
             :root {
-                --container-padding: 1.25rem;
-                --section-padding: 3.75rem;
+                --container-padding: clamp(1rem, 4vw, 1.25rem);
+                --section-padding: clamp(2rem, 5vw, 3.75rem);
+                font-size: clamp(14px, 2vw, 16px);
+            }
+            
+            * {
+                box-sizing: border-box;
             }
 
             .nav {
@@ -2635,8 +2709,9 @@
         /* Very small devices */
         @media (max-width: 360px) {
             :root {
-                --container-padding: 1rem;
-                --section-padding: 2.5rem;
+                --container-padding: clamp(0.75rem, 3vw, 1rem);
+                --section-padding: clamp(1.5rem, 4vw, 2.5rem);
+                font-size: clamp(12px, 3vw, 14px);
             }
             
             .nav {
@@ -3404,7 +3479,7 @@
                         <span>Let's Connect</span>
                         <ion-icon name="arrow-forward-outline"></ion-icon>
                     </a>
-                    <a href="AlexLE_RESUME.pdf" target="_blank" class="cta-button resume-button">
+                    <a href="alex_resume.pdf" target="_blank" class="cta-button resume-button">
                         <span>View Resume</span>
                         <ion-icon name="document-outline"></ion-icon>
                     </a>
@@ -4629,12 +4704,21 @@
             // Set canvas size
             function resizeCanvas() {
                 const dpr = window.devicePixelRatio || 1;
-                canvas.width = window.innerWidth * dpr;
-                canvas.height = window.innerHeight * dpr;
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
                 gl.viewport(0, 0, canvas.width, canvas.height);
             }
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
+            
+            // Handle orientation change for mobile
+            window.addEventListener('orientationchange', () => {
+                setTimeout(resizeCanvas, 100);
+            });
 
             // Shader sources (adapted from argus dither.tsx)
             const vertexShaderSource = `
@@ -4863,11 +4947,23 @@
             });
             
             // Resize handler
-            window.addEventListener('resize', () => {
+            function handleResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-            });
+                
+                // Update canvas container
+                const container = document.getElementById('canvas-container');
+                if (container) {
+                    container.style.width = window.innerWidth + 'px';
+                    container.style.height = window.innerHeight + 'px';
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+            
+            // Initial resize call
+            handleResize();
         }
 
         // ============================================
