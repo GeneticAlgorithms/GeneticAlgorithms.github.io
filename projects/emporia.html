@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emporia PDF Processor - Alex Le Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="emporia-style.css" />
+  <style>
+    /* Override some styles for portfolio integration */
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      text-align: center;
+      padding: 40px 0 60px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #00d4ff;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: #a0a0a0;
+      font-weight: 400;
+    }
+    
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+    }
+    
+    .back-link:hover {
+      color: #00ff88;
+    }
+    
+    .upload-area {
+      border: 2px dashed rgba(0, 212, 255, 0.3);
+      background: rgba(0, 212, 255, 0.05);
+    }
+    
+    .upload-area:hover {
+      border-color: rgba(0, 212, 255, 0.6);
+      background: rgba(0, 212, 255, 0.1);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #00ff88, #00d4ff);
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #00d4ff;
+      border: 1px solid #00d4ff;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(0, 212, 255, 0.1);
+      color: #00ff88;
+      border-color: #00ff88;
+    }
+    
+    .file-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .results-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .markdown-viewer {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .error-section {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+    }
+  </style>
+  <script>
+    // Set this to your deployed backend base URL when on GitHub Pages, e.g.:
+    // window.API_BASE = "https://YOUR-BACKEND-HOST"; // no trailing slash
+    window.API_BASE = window.API_BASE || "https://emporia-pdf-api.herokuapp.com";
+  </script>
+</head>
+<body>
+  <div class="container">
+    <a href="../index.html" class="back-link">
+      ← Back to Portfolio
+    </a>
+    
+    <header class="header">
+      <h1 class="logo">Emporia PDF</h1>
+      <p class="subtitle">Multi-PDF Processing with Azure Document Intelligence</p>
+    </header>
+
+    <main class="main">
+      <div class="upload-section">
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-content">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7,10 12,15 17,10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <h3>Drop PDF files here</h3>
+                        <p>Select 1-15 PDF files (max 20MB each)</p>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Choose Files</button>
+            <input type="file" id="fileInput" multiple accept=".pdf" style="display: none;" />
+          </div>
+        </div>
+
+        <div class="file-list" id="fileList" style="display: none;">
+          <h4>Selected Files</h4>
+          <div class="files" id="files"></div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-group">
+            <label for="message">Processing Message</label>
+            <textarea id="message" placeholder="Enter your processing instructions or context..." rows="3"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="chatid">Chat ID (optional)</label>
+              <input type="text" id="chatid" placeholder="demo123" />
+            </div>
+            <div class="form-group">
+              <label for="userid">User ID (optional)</label>
+              <input type="text" id="userid" placeholder="alex" />
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-large" id="processBtn" disabled>
+            <span class="btn-text">Process PDFs</span>
+            <div class="spinner" style="display: none;"></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="results-section" id="resultsSection" style="display: none;">
+        <div class="results-header">
+          <h3>Processing Results</h3>
+          <div class="results-meta" id="resultsMeta"></div>
+        </div>
+
+        <div class="results-actions">
+          <button class="btn btn-secondary" id="downloadBtn">Download Markdown</button>
+          <button class="btn btn-secondary" id="copyBtn">Copy to Clipboard</button>
+          <button class="btn btn-secondary" id="newProcessBtn">Process New Files</button>
+        </div>
+
+        <div class="results-content">
+          <div class="markdown-viewer" id="markdownViewer"></div>
+        </div>
+      </div>
+
+      <div class="error-section" id="errorSection" style="display: none;">
+        <div class="error-content">
+          <h3>Processing Error</h3>
+          <p id="errorMessage"></p>
+          <button class="btn btn-primary" onclick="resetForm()">Try Again</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2024 Alex Le Portfolio. Powered by Azure Document Intelligence.</p>
+    </footer>
+  </div>
+
+  <script src="emporia-app.js"></script>
+</body>
+</html>
