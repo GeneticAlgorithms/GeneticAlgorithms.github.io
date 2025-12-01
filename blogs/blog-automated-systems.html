@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Automated Systems That Actually Work - Alexander Le</title>
+    <link rel="icon" type="image/svg+xml" href="Logo.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <style>
+        :root {
+            /* Colors */
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(15, 15, 15, 0.95);
+            --bg-overlay: rgba(8, 8, 8, 0.95);
+            --text-primary: #f0f2f2;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6a6a6a;
+            --text-accent: #ffffff;
+            --primary-blue: #00d4ff;
+            --secondary-teal: #00b4d8;
+            --accent-cyan: #0077b6;
+            --border-subtle: rgba(0, 212, 255, 0.1);
+            --glow-primary: rgba(0, 212, 255, 0.3);
+            --glow-secondary: rgba(0, 180, 216, 0.2);
+            
+            /* Typography */
+            --font-display: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Transitions */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        /* Header */
+        .blog-header {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .blog-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+        
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .blog-category {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .blog-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+        }
+        
+        /* Content */
+        .blog-content {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        .blog-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin: var(--space-2xl) 0 var(--space-lg) 0;
+            line-height: 1.3;
+        }
+        
+        .blog-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.375rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin: var(--space-xl) 0 var(--space-md) 0;
+            line-height: 1.3;
+        }
+        
+        .blog-content p {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .blog-content ul, .blog-content ol {
+            margin: var(--space-lg) 0;
+            padding-left: var(--space-xl);
+        }
+        
+        .blog-content li {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .blog-content blockquote {
+            border-left: 3px solid var(--primary-blue);
+            padding-left: var(--space-lg);
+            margin: var(--space-xl) 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .blog-content code {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 0.875em;
+        }
+        
+        .blog-content pre {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+            overflow-x: auto;
+        }
+        
+        .blog-content pre code {
+            background: none;
+            color: var(--text-secondary);
+            padding: 0;
+        }
+        
+        /* Footer */
+        .blog-footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+        
+        .blog-footer p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-md);
+            }
+            
+            .blog-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="blog-header">
+            <nav class="blog-nav">
+                <a href="../index.html" class="back-link">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                    <span>Back to Portfolio</span>
+                </a>
+            </nav>
+            
+            <div class="blog-meta">
+                <span class="blog-category">Technology</span>
+                <span>November 2024</span>
+            </div>
+            
+            <h1 class="blog-title">Building Automated Systems That Actually Work</h1>
+        </header>
+        
+        <main class="blog-content">
+            <p>After working on data processing pipelines that handle millions of records daily, I've learned that the key to building automated systems isn't just writing code that works—it's creating systems that are maintainable, reliable, and can adapt to changing requirements over time.</p>
+            
+            <h2>The Automation Trap</h2>
+            
+            <p>It's tempting to automate everything. After all, if a process can be automated, why waste human time on it? But automation without careful planning often leads to brittle systems that break when conditions change, or worse, systems that work perfectly until they don't—and then fail catastrophically.</p>
+            
+            <p>The most successful automated systems I've built follow a few key principles that I've learned through trial and error.</p>
+            
+            <h2>Design for Observability</h2>
+            
+            <p>You can't fix what you can't see. Every automated system needs comprehensive logging, monitoring, and alerting. This doesn't mean logging everything—that creates noise. Instead, focus on logging the right things at the right level.</p>
+            
+            <blockquote>
+                "The best automated systems are boring. They run quietly in the background, doing their job without drama."
+            </blockquote>
+            
+            <h3>Key Metrics to Track</h3>
+            
+            <ul>
+                <li><strong>Throughput:</strong> How many records are being processed per hour?</li>
+                <li><strong>Latency:</strong> How long does it take to process a single record?</li>
+                <li><strong>Error Rate:</strong> What percentage of records fail processing?</li>
+                <li><strong>Resource Usage:</strong> CPU, memory, and disk utilization patterns</li>
+            </ul>
+            
+            <h2>Build in Resilience</h2>
+            
+            <p>Systems will fail. Networks will go down. Databases will become unavailable. The question isn't whether these things will happen, but how your system will respond when they do.</p>
+            
+            <h3>Retry Logic and Circuit Breakers</h3>
+            
+            <p>Implement exponential backoff for retries, and use circuit breakers to prevent cascading failures. If a downstream service is consistently failing, stop calling it for a while rather than continuing to hammer it with requests.</p>
+            
+            <h3>Graceful Degradation</h3>
+            
+            <p>Design your system so that when non-critical components fail, the core functionality continues to work. For example, if your analytics pipeline goes down, the main data processing should continue, just without the real-time dashboards.</p>
+            
+            <h2>Make It Testable</h2>
+            
+            <p>Automated systems need automated testing. This includes unit tests for individual components, integration tests for the full pipeline, and end-to-end tests that verify the system works as expected from a user's perspective.</p>
+            
+            <p>But testing automated systems is tricky because they often depend on external services, databases, and file systems. Use dependency injection and mocking to make your tests reliable and fast.</p>
+            
+            <h2>Plan for Change</h2>
+            
+            <p>Requirements change. Data formats evolve. New regulations require different processing logic. The systems that survive are the ones that can adapt without requiring a complete rewrite.</p>
+            
+            <h3>Configuration Over Code</h3>
+            
+            <p>Make your system configurable. Use configuration files, environment variables, or feature flags to control behavior. This allows you to change how the system works without deploying new code.</p>
+            
+            <h3>Modular Design</h3>
+            
+            <p>Break your system into small, focused modules that can be developed, tested, and deployed independently. This makes it easier to update individual components without affecting the entire system.</p>
+            
+            <h2>The Human Factor</h2>
+            
+            <p>Even the most automated systems need human oversight. Someone needs to monitor the system, investigate failures, and make decisions when unexpected situations arise.</p>
+            
+            <p>Design your system with humans in mind. Make error messages clear and actionable. Provide good documentation. Create runbooks for common failure scenarios. The goal is to make it easy for humans to understand and maintain the system.</p>
+            
+            <h2>Lessons Learned</h2>
+            
+            <p>Building automated systems that actually work is an ongoing process. You'll make mistakes, learn from them, and improve your approach. The key is to start simple, monitor everything, and iterate based on real-world feedback.</p>
+            
+            <p>Remember: automation is a tool, not a goal. The goal is to solve problems efficiently and reliably. Sometimes that means automating everything. Sometimes it means automating nothing. Most of the time, it means finding the right balance.</p>
+        </main>
+        
+        <footer class="blog-footer">
+            <p>© 2024 Alexander Le. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

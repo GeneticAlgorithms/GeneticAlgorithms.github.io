@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From NASA to Silicon Valley: Lessons in Innovation - Alexander Le</title>
+    <link rel="icon" type="image/svg+xml" href="Logo.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+    <style>
+        :root {
+            /* Colors */
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(15, 15, 15, 0.95);
+            --bg-overlay: rgba(8, 8, 8, 0.95);
+            --text-primary: #f0f2f2;
+            --text-secondary: #b8b8b8;
+            --text-muted: #6a6a6a;
+            --text-accent: #ffffff;
+            --primary-blue: #00d4ff;
+            --secondary-teal: #00b4d8;
+            --accent-cyan: #0077b6;
+            --border-subtle: rgba(0, 212, 255, 0.1);
+            --glow-primary: rgba(0, 212, 255, 0.3);
+            --glow-secondary: rgba(0, 180, 216, 0.2);
+            
+            /* Typography */
+            --font-display: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Transitions */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        /* Header */
+        .blog-header {
+            padding: var(--space-xl) 0;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .blog-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .back-link:hover {
+            color: var(--primary-blue);
+        }
+        
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .blog-category {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .blog-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+        }
+        
+        /* Content */
+        .blog-content {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        .blog-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin: var(--space-2xl) 0 var(--space-lg) 0;
+            line-height: 1.3;
+        }
+        
+        .blog-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.375rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            margin: var(--space-xl) 0 var(--space-md) 0;
+            line-height: 1.3;
+        }
+        
+        .blog-content p {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .blog-content ul, .blog-content ol {
+            margin: var(--space-lg) 0;
+            padding-left: var(--space-xl);
+        }
+        
+        .blog-content li {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .blog-content blockquote {
+            border-left: 3px solid var(--primary-blue);
+            padding-left: var(--space-lg);
+            margin: var(--space-xl) 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+        
+        .blog-content code {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-blue);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 0.875em;
+        }
+        
+        .blog-content pre {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+            overflow-x: auto;
+        }
+        
+        .blog-content pre code {
+            background: none;
+            color: var(--text-secondary);
+            padding: 0;
+        }
+        
+        /* Footer */
+        .blog-footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+        }
+        
+        .blog-footer p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-md);
+            }
+            
+            .blog-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="blog-header">
+            <nav class="blog-nav">
+                <a href="../index.html" class="back-link">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                    <span>Back to Portfolio</span>
+                </a>
+            </nav>
+            
+            <div class="blog-meta">
+                <span class="blog-category">Career</span>
+                <span>October 2024</span>
+            </div>
+            
+            <h1 class="blog-title">From NASA to Silicon Valley: Lessons in Innovation</h1>
+        </header>
+        
+        <main class="blog-content">
+            <p>Having worked on aerospace research at NASA and data science projects in Silicon Valley, I've been struck by the similarities between these two worlds. Both require rigorous problem-solving, interdisciplinary thinking, and the ability to work with complex systems under constraints. But they also approach innovation in fundamentally different ways.</p>
+            
+            <h2>The NASA Approach: Mission-Critical Precision</h2>
+            
+            <p>At NASA, every decision carries enormous weight. When you're designing systems that will operate in space, there's no room for error. The consequences of failure are not just financial—they can be catastrophic. This creates a culture of meticulous planning, extensive testing, and conservative decision-making.</p>
+            
+            <p>During my time as a NASA Community College Aerospace Scholar, I learned that innovation at NASA isn't about moving fast and breaking things. It's about moving deliberately and building things that work reliably in the harshest conditions imaginable.</p>
+            
+            <blockquote>
+                "In aerospace, you can't iterate your way out of a problem once your rocket is in the air. You have to get it right the first time."
+            </blockquote>
+            
+            <h3>Key Lessons from NASA</h3>
+            
+            <ul>
+                <li><strong>Systems Thinking:</strong> Every component affects every other component. You can't optimize one part in isolation.</li>
+                <li><strong>Risk Management:</strong> Identify potential failure modes early and design systems to handle them gracefully.</li>
+                <li><strong>Documentation:</strong> When lives depend on your work, documentation isn't optional—it's essential.</li>
+                <li><strong>Testing:</strong> Test everything, test often, and test under realistic conditions.</li>
+            </ul>
+            
+            <h2>The Silicon Valley Approach: Rapid Iteration</h2>
+            
+            <p>In Silicon Valley, the philosophy is different. The goal is to move quickly, learn from failures, and iterate based on user feedback. The mantra is "fail fast, fail often"—but fail in ways that teach you something valuable.</p>
+            
+            <p>Working on data science projects at Intel and other tech companies, I've seen how this approach can accelerate innovation. When you can deploy changes quickly and measure their impact in real-time, you can learn and adapt much faster than traditional industries.</p>
+            
+            <h3>Key Lessons from Silicon Valley</h3>
+            
+            <ul>
+                <li><strong>User-Centric Design:</strong> Build for the user, not for the technology. The best solution is the one that solves the user's problem most effectively.</li>
+                <li><strong>Data-Driven Decisions:</strong> Use data to guide your decisions, but don't let it replace human judgment entirely.</li>
+                <li><strong>Agile Development:</strong> Break large problems into small, manageable pieces that can be tackled incrementally.</li>
+                <li><strong>Continuous Learning:</strong> The technology landscape changes rapidly. Stay curious and keep learning.</li>
+            </ul>
+            
+            <h2>Finding the Balance</h2>
+            
+            <p>The most successful projects I've worked on combine the best of both approaches. They use NASA's rigorous systems thinking and risk management, but apply Silicon Valley's rapid iteration and user-centric design.</p>
+            
+            <h3>When to Use Each Approach</h3>
+            
+            <p><strong>Use the NASA approach when:</strong></p>
+            <ul>
+                <li>Failure has serious consequences (safety, security, financial)</li>
+                <li>You're working with complex, interdependent systems</li>
+                <li>Requirements are well-defined and unlikely to change</li>
+                <li>You have time to plan and test thoroughly</li>
+            </ul>
+            
+            <p><strong>Use the Silicon Valley approach when:</strong></p>
+            <ul>
+                <li>You're exploring new markets or technologies</li>
+                <li>User needs are unclear or rapidly evolving</li>
+                <li>You need to learn quickly from user feedback</li>
+                <li>Speed to market is more important than perfection</li>
+            </ul>
+            
+            <h2>Cross-Pollination of Ideas</h2>
+            
+            <p>Some of the most interesting innovations happen when ideas from one field are applied to another. For example, the same machine learning techniques used to optimize ad targeting can be applied to optimize spacecraft trajectories. The same data visualization tools used to analyze user behavior can be used to analyze telemetry data from satellites.</p>
+            
+            <p>The key is to maintain curiosity about different fields and look for patterns that transcend domain boundaries. The problems might be different, but the underlying principles of good engineering and design are universal.</p>
+            
+            <h2>Looking Forward</h2>
+            
+            <p>As technology continues to evolve, the boundaries between different industries will continue to blur. The skills that make someone successful in aerospace—systems thinking, risk management, attention to detail—are increasingly valuable in tech. And the skills that make someone successful in tech—rapid iteration, user focus, data-driven decision making—are becoming more important in traditional industries.</p>
+            
+            <p>The future belongs to those who can bridge these worlds, bringing the best practices from each to solve problems that span multiple domains. Whether you're building the next generation of spacecraft or the next generation of software, the principles of good engineering remain the same: understand the problem, design a solution, test it thoroughly, and iterate based on feedback.</p>
+        </main>
+        
+        <footer class="blog-footer">
+            <p>© 2024 Alexander Le. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
