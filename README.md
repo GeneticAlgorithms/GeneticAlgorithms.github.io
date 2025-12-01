@@ -1,32 +1,4 @@
-# Alexander Le - Portfolio Website
-
-A modern, responsive portfolio website showcasing my work in data science, technology, and innovation. Built with vanilla HTML, CSS, and JavaScript, featuring interactive 3D animations and real-time market data.
-
-🌐 **Live Site**: [geneticalgorithms.github.io](https://geneticalgorithms.github.io)
-
-## About
-
-I'm a junior at UC Berkeley pursuing a simultaneous degree in Statistics and Economics with a minor in Electrical Engineering & Computer Science, graduating May 2027. I've worked with California Volunteers, NASA, Intel, and competed in DoD cybersecurity challenges. Here I write about tech and create YouTube videos about STEM, finance, and philosophy!
-
-## Features
-
-- **Responsive Design**: Fully responsive layout that adapts to all screen sizes and devices
-- **3D Animations**: Interactive Three.js animations for engaging visual experiences
-- **Real-time Market Data**: Live securities tracker using yfinance API
-- **Smooth Scrolling**: Seamless navigation between sections
-- **Mobile Navigation**: Bottom navigation bar for mobile devices
-- **Dark Theme**: Modern dark theme with cyan/blue accent colors
-- **Performance Optimized**: Fast loading times and optimized assets
-
-## Sections
-
-- **Hero**: Introduction with social links and call-to-action
-- **About**: Education, skills, interests, and awards
-- **Experience**: Professional experience and internships
-- **Writing**: Blog posts and articles
-- **Videos**: Educational YouTube content
-- **Projects**: Featured projects and technical work
-- **Contact**: Contact information and social media links
+# Alex's Site
 
 ## Tech Stack
 
